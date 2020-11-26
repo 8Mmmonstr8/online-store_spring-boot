@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserController(UserRepository userRepository) {
@@ -24,15 +24,12 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
-        model.addAttribute("title", "Главная страница");
+    public String home() {
         return "user/home";
     }
 
     @GetMapping("/temp-members-page")
     public String temp(Model model) {
-        model.addAttribute("title", "Пользователи");
-
         List<User> list = userRepository.findAll();
         model.addAttribute("users", list);
 
