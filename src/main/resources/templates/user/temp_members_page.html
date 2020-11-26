@@ -28,12 +28,16 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
+        <th>Password</th>
+        <th>Role</th>
     </tr>
     <tr th:each ="user : ${users}">
         <td th:utext="${user.id}">...</td>
         <td th:utext="${user.firstName}">...</td>
         <td th:utext="${user.lastName}">...</td>
         <td th:utext="${user.email}">...</td>
+        <td th:utext="${user.password}">...</td>
+        <td th:utext="${user.role}">...</td>
     </tr>
 </table>
 
