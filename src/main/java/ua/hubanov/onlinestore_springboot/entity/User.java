@@ -36,6 +36,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UserRole role = UserRole.USER;
+
+// TODO
+//    @Builder.Default
+//    private Boolean locked = false;
+
 //        @Column(name = "role")
 //    @Enumerated(EnumType.STRING)
 //    private UserRole role;
