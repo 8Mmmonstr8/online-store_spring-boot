@@ -3,6 +3,9 @@ package ua.hubanov.onlinestore_springboot.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -20,15 +23,20 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Size(min = 2, max = 30, message = "First Name should be between 2 and 30 characters")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Size(min = 2, max = 30, message = "Last Name should be between 2 and 30 characters")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "Email should be valid")
     @Column(nullable = false)
     private String email;
 
+    @Size(min = 5, max = 30, message = "Password should be between 5 and 30 characters")
     @Column(name = "password", nullable = false)
     private String password;
 
