@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
+import ua.hubanov.onlinestore_springboot.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,10 +20,12 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -45,10 +48,14 @@ public class UserController {
 
     @PostMapping()
     public String create(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors())
             return "user/registration";
 
+        if (!userService.saveUser(user)) {
+            model.addAttribute("userEmailError", "Пользователь с таким Email уже существует");
+            return "user/registration";
+        }
         userRepository.save(user);
         return "redirect:/user/";
     }

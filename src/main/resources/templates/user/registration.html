@@ -22,6 +22,11 @@
     <label for="email">Email: </label>
     <input type="text" th:field="*{email}" id="email"/>
     <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+<!--    <td style="color: red" th:text="${userEmailError}">1</td>-->
+        <div style="color:red">
+            <td th:text="${userEmailError}">1</td>
+        </div>
+
     <br/>
     <label for="password">Password: </label>
     <input type="text" th:field="*{password}" id="password"/>
