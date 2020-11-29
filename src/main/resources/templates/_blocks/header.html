@@ -1,0 +1,22 @@
+<div th:fragment="header">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Online Store</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a sec:authorize="hasAuthority('ADMIN')">
+                <a class="btn btn-warning" th:href="@{/admin}">Admin</a>
+            </a>
+            <a class="btn btn-primary" href="/">Main Page</a>
+            <a class="btn btn-primary" href="/cart">Cart</a>
+            <a sec:authorize="!isAuthenticated()">
+                <a class="btn btn-primary" th:href="@{/login}">Login</a>
+            </a>
+            <a sec:authorize="isAuthenticated()">
+                <a class="btn btn-primary" th:href="@{/user/account}">User Account</a>
+            </a>
+            <a sec:authorize="isAuthenticated()">
+                <a class="btn btn-primary" th:href="@{/logout}">Logout</a>
+            </a>
+        </nav>
+
+    </div>
+</div>

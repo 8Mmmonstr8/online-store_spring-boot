@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Main's Main Page</title>
@@ -7,14 +8,7 @@
 </head>
 <body>
 
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Online Store</h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">Main Page</a>
-        <a class="p-2 text-dark" href="#">Login</a>
-    </nav>
-    <a class="btn btn-outline-primary" href="#">Sign up</a>
-</div>
+<header th:insert="_blocks/header :: header"></header>
 
 <main role="main">
 
@@ -53,9 +47,7 @@
 
 </main>
 
-<footer class="container">
-    <p>© Online Store 2017-2020</p>
-</footer>
+<header th:insert="_blocks/footer :: footer"></header>
 
 </body>
 </html>
