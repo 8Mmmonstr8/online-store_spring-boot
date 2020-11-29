@@ -28,7 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String home() {
         return "user/home";
     }
@@ -56,7 +56,7 @@ public class UserController {
             model.addAttribute("userEmailError", "Пользователь с таким Email уже существует");
             return "user/registration";
         }
-        userRepository.save(user);
+ //       userRepository.save(user);
         return "redirect:/user/";
     }
 

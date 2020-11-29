@@ -1,11 +1,18 @@
 package ua.hubanov.onlinestore_springboot.entity;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 //@Getter
 //@Setter
@@ -17,7 +24,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table( name="user",
         uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
@@ -36,23 +43,15 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Size(min = 5, max = 30, message = "Password should be between 5 and 30 characters")
+    @NotEmpty(message = "Email should not be empty")
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     @Builder.Default
+//    private List<UserRole> role = new ArrayList<UserRole>(Collections.singleton(UserRole.USER));
     private UserRole role = UserRole.USER;
-
-// TODO
-//    @Builder.Default
-//    private Boolean locked = false;
-
-//        @Column(name = "role")
-//    @Enumerated(EnumType.STRING)
-//    private UserRole role;
-
 
     public Long getId() {
         return id;
@@ -94,11 +93,40 @@ public class User {
         this.password = password;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
 
+    // ToDo
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    // Todo
+    @Override
+    public List<UserRole> getAuthorities() {
+        return new ArrayList<>(Collections.singleton(role));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
