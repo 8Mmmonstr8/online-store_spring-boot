@@ -53,6 +53,10 @@ public class User implements UserDetails {
 //    private List<UserRole> role = new ArrayList<UserRole>(Collections.singleton(UserRole.USER));
     private UserRole role = UserRole.USER;
 
+    @Column(name = "isNonLocked")
+    @Builder.Default
+    private boolean isNonLocked = true;
+
     public Long getId() {
         return id;
     }
@@ -117,7 +121,11 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isNonLocked;
+    }
+
+    public void setAccountLocked() {
+        isNonLocked = false;
     }
 
     @Override
