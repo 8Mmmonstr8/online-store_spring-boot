@@ -21,16 +21,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                     .authorizeRequests()
-                    .antMatchers("/", "user/registration")
+                    .antMatchers("/", "/registration/**",
+                            "/cart/**", "/login/**")
                     .permitAll()
+                    .antMatchers("/admin", "/admin/**").hasAnyAuthority("ADMIN")
+                    .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
                     .anyRequest()
                     .authenticated()
                 .and()
                     .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
                     .permitAll()
                 .and()
                     .logout()
-                    .permitAll();
+                    .logoutUrl("/j_spring_security_logout")
+                    .permitAll()
+                    .logoutSuccessUrl("/");
     }
 
     @Bean
