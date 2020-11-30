@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
 
 <header th:insert="_blocks/header :: header"></header>
 
-<h2>Admins Home Page!</h2>
+
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h1 align="center">Admin's Home pAge</h1>
+        <div style="margin-top: 16px">
+            <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Orders</a></p>
+        </div><div style="margin-top: 16px">
+            <p><a class="btn btn-success btn-lg btn-block" href="/admin/users" role="button">Users</a></p>
+        </div>
+        <div style="margin-top: 16px">
+            <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Products</a></p>
+        </div>
+    </div>
+
+</main>
+
 
 <header th:insert="_blocks/footer :: footer"></header>
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+<main role="main" class="container">
+    <div class="starter-template">
+        <h1 align="center"><p th:utext="'Editing user: ' + ${user.getEmail()}">VALUE</p></h1>
+
+        <form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
+            <fieldset class="center">
+
+<!--                <div>-->
+<!--                    <label for="isNonLocked"></label>-->
+<!--                    <input type="text" class="form-control" th:field="*{isNonLocked}" id="isNonLocked" placeholder="Enter status">-->
+<!--                </div>-->
+
+<!--                <input type="checkbox" name="active" th:checked="${user.isAccountNonLocked()}" />-->
+                <input
+                        type="checkbox"
+                        name="isNonBlocked"
+                        th:checked="${user.isAccountNonLocked()}"/>
+
+                <div>
+                    <label for="firstName"></label>
+                    <input type="text" class="form-control" th:field="*{firstName}" id="firstName" placeholder="Enter First Name">
+                    <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                </div>
+
+                <div>
+                    <label for="id"></label>
+                    <input type="hidden" class="form-control" th:field="*{id}" id="id" placeholder="Enter User Id">
+                </div>
+
+                <div style="margin-top: 16px">
+                    <div> <!--class="col-xs-6 col-sm-6 col-md-6"-->
+                        <input type="submit" class="btn btn-lg btn-success btn-block" value="Save"/>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+
+    <div/>
+</main>
+
+<header th:insert="_blocks/footer :: footer"></header>
+</body>
+</html>

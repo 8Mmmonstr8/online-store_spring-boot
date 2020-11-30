@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+<main role="main" class="container">
+    <div class="starter-template">
+        <h1 align="center">List of users</h1>
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>isActive</th>
+            </tr>
+            <tr th:each ="user : ${users}">
+                <td th:utext="${user.id}">...</td>
+                <td th:utext="${user.firstName}">...</td>
+                <td th:utext="${user.lastName}">...</td>
+                <td th:utext="${user.email}">...</td>
+                <td th:utext="${user.getAuthorities()}">...</td>
+                <td th:utext="${user.isAccountNonLocked()}">...</td>
+                <td><a th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit<a/></td>
+            </tr>
+        </table>
+    <div/>
+</main>
+
+<header th:insert="_blocks/footer :: footer"></header>
+
+
+</body>
+</html>
