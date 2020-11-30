@@ -33,28 +33,23 @@ public class AdminController {
         return "/admin/users";
     }
 
-    @GetMapping("/users/{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
-//        Optional<User> userFromBd = userRepository.findById(id);
-//        //todo
-//        User user = userFromBd.get();
-        model.addAttribute("user", user);
-        String s = String.valueOf(user.isAccountNonLocked());
-        model.addAttribute("isActive", s);
-        return "/admin/user_edit_form";
+    @PostMapping("/users/{user}/remove")
+    public String removeUser(@PathVariable User user) {
+        userRepository.delete(user);
+        return "redirect:/admin/users";
     }
 
-    @PostMapping("/users")
-    public String userUpdate(
-            @RequestParam boolean active,
-            @RequestParam String firstName,
-            @RequestParam("id") User user) {
-
-        if (active == false)
-            user.setAccountLocked();
-
+    @PostMapping("/users/{user}/block")
+    public String blockUser(@PathVariable User user) {
+        user.setAccountLocked();
         userRepository.save(user);
+        return "redirect:/admin/users";
+    }
 
+    @PostMapping("/users/{user}/unblock")
+    public String unBlockUser(@PathVariable User user) {
+        user.setAccountUnLocked();
+        userRepository.save(user);
         return "redirect:/admin/users";
     }
 }

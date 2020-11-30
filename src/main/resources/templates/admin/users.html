@@ -28,7 +28,22 @@
                 <td th:utext="${user.email}">...</td>
                 <td th:utext="${user.getAuthorities()}">...</td>
                 <td th:utext="${user.isAccountNonLocked()}">...</td>
-                <td><a th:href="@{/admin/users/{id}(id=${user.getId()})}">Edit<a/></td>
+                <td>
+                    <form th:action="'/admin/users/' + ${user.id} + '/block'" method="post">
+                        <button class="btn btn-success btn-sm" type="submit">Block</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="'/admin/users/' + ${user.id} + '/unblock'" method="post">
+                        <button class="btn btn-warning btn-sm" type="submit">Unblock</button>
+                    </form>
+                </td>
+
+                <td>
+                    <form th:action="'/admin/users/' + ${user.id} + '/remove'" method="post">
+                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
         </table>
     <div/>

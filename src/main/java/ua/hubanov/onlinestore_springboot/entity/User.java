@@ -128,6 +128,10 @@ public class User implements UserDetails {
         isNonLocked = false;
     }
 
+    public void setAccountUnLocked() {
+        isNonLocked = true;
+    }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
