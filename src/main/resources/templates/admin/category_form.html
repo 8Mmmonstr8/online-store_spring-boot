@@ -18,36 +18,31 @@
 
 <header th:insert="_blocks/header :: header"></header>
 
-
-
-<!--<main role="main" class="container">-->
 <div class="center">
 
     <div class="center" style="margin-top:20px">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <fieldset class="center">
-                <h1 align="center">Admin's Home Page</h1>
-                <div style="margin-top: 16px">
-                    <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Orders</a></p>
-                </div><div style="margin-top: 16px">
-                    <p><a class="btn btn-success btn-lg btn-block" href="/admin/users" role="button">Users</a></p>
-                </div>
-                <div style="margin-top: 16px">
-                    <p><a class="btn btn-success btn-lg btn-block" href="/admin/products" role="button">Products</a></p>
-                </div>
-            </fieldset>
+            <form th:method="POST" th:action="@{/admin/products/categories/cat-form}" th:object="${category}">
+                <fieldset class="center">
+                    <h1 align="center">Create Category</h1>
+                    <div>
+                        <label for="name"></label>
+                        <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Enter Category Name">
+                    </div>
+
+                    <div style="margin-top: 16px">
+                        <div> <!--class="col-xs-6 col-sm-6 col-md-6"-->
+                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Create"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
         </div>
     </div>
 
-<div/>
-
-
-
+</div>
 
 <header th:insert="_blocks/footer :: footer"></header>
-
-
-
 
 </body>
 </html>
