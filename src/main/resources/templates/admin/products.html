@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+<div class="container">
+    <h2 align="center">Products Page!</h2>
+
+    <p><a class="btn btn-primary btn-lg" href="/admin/products/categories" role="button">Let's GO! »</a></p>
+</div>
+
+<header th:insert="_blocks/footer :: footer"></header>
+
+</body>
+</html>

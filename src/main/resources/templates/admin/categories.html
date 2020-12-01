@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+
+<div class="container">
+    <h2 align="center">Categories</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each ="category : ${categories}">
+            <td th:utext="${category.id}" />
+            <td th:utext="${category.name}" />
+        </tr>
+        </tbody>
+    </table>
+    <p><a class="btn btn-primary" href="/admin/products/categories/cat-form" role="button">Create new category</a></p>
+</div>
+
+
+<header th:insert="_blocks/footer :: footer"></header>
+</body>
+</html>
