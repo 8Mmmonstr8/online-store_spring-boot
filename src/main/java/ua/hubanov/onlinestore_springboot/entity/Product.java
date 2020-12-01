@@ -1,5 +1,6 @@
 package ua.hubanov.onlinestore_springboot.entity;
 
+import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -7,8 +8,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
+@Getter
+@Setter
+
 @Entity
-@Table( name="products")
+@Table(name="products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +36,15 @@ public class Product {
     @NotNull
     private Double price;
 
-    @Column(name = "category")
-    private String category;
+   // @Column(name = "category")
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
 
