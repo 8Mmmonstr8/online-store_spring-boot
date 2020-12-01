@@ -10,9 +10,14 @@
             <a sec:authorize="!isAuthenticated()">
                 <a class="btn btn-primary" th:href="@{/login}">Login</a>
             </a>
-            <a sec:authorize="isAuthenticated()">
-                <a class="btn btn-primary" th:href="@{/user/account}">User Account</a>
+
+            <a sec:authorize="hasAuthority('ADMIN')">
+                <a class="btn btn-primary" th:href="@{/admin/account}">Account</a>
             </a>
+            <a sec:authorize="hasAuthority('USER')">
+                <a class="btn btn-primary" th:href="@{/user/account}">Account</a>
+            </a>
+
             <a sec:authorize="isAuthenticated()">
                 <a class="btn btn-primary" th:href="@{/logout}">Logout</a>
             </a>

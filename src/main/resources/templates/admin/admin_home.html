@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Главная страница</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .center {
+            width: 400px; /* Ширина элемента в пикселах */
+            padding: top 20px;/*20px; /* Поля вокруг текста */
+            margin: auto; /* Выравниваем по центру */
+            /* Цвет фона */
+        }
+    </style>
 </head>
 
 <body>
@@ -12,21 +20,28 @@
 
 
 
-<main role="main" class="container">
+<!--<main role="main" class="container">-->
+<div class="center">
 
-    <div class="starter-template">
-        <h1 align="center">Admin's Home pAge</h1>
-        <div style="margin-top: 16px">
-            <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Orders</a></p>
-        </div><div style="margin-top: 16px">
-            <p><a class="btn btn-success btn-lg btn-block" href="/admin/users" role="button">Users</a></p>
-        </div>
-        <div style="margin-top: 16px">
-            <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Products</a></p>
+    <div class="center" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <fieldset class="center">
+                <h1 align="center">Admin's Home Page</h1>
+                <div style="margin-top: 16px">
+                    <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Orders</a></p>
+                </div><div style="margin-top: 16px">
+                    <p><a class="btn btn-success btn-lg btn-block" href="/admin/users" role="button">Users</a></p>
+                </div>
+                <div style="margin-top: 16px">
+                    <p><a class="btn btn-success btn-lg btn-block" href="#" role="button">Products</a></p>
+                </div>
+            </fieldset>
         </div>
     </div>
 
-</main>
+<div/>
+
+
 
 
 <header th:insert="_blocks/footer :: footer"></header>

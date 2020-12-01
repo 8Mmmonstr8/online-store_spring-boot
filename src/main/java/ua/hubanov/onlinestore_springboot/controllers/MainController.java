@@ -70,7 +70,7 @@ public class MainController {
             model.addAttribute("userEmailError", "Пользователь с таким Email уже существует");
             return "registration";
         }
-        //       userRepository.save(user);
+//        userRepository.save(user);
         return "redirect:/login";
     }
 }
