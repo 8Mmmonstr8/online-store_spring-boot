@@ -10,34 +10,51 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
+import ua.hubanov.onlinestore_springboot.service.ProductService;
 import ua.hubanov.onlinestore_springboot.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 public class MainController {
     private final UserRepository userRepository;
     private final UserService userService;
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductService productService;
 
     @Autowired
-    public MainController(UserRepository userRepository, UserService userService, ProductRepository productRepository) {
+    public MainController(UserRepository userRepository, UserService userService,
+                          ProductRepository productRepository, CategoryRepository categoryRepository,
+                          ProductService productService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+        this.productService = productService;
     }
 
     @GetMapping("/")
-    public String home(Model model) {
-        model.addAttribute("title", "Maaain page");
-        model.addAttribute("products", productRepository.findAll());
+    public String home(HttpServletRequest request, Model model) throws Exception {
+
+        String category = request.getParameter("category");
+        if (category == null || category.equals("all"))
+            model.addAttribute("products", productRepository.findAll());
+        else {
+            Long categoryId = Long.valueOf(category);
+            model.addAttribute("products", productService.findByCategoryId(categoryId));
+        }
         return "index";
     }
+//    departmentRepo.findById(departmentId).employees
 
     @GetMapping("/login")
     public String login() {
@@ -79,8 +96,23 @@ public class MainController {
     }
 
     @GetMapping("/tools/sortbynameasc")
-    public String sortByNameAsc(Model model) {
-        model.addAttribute("products", productRepository.findByOrderByNameAsc());
+    public String sortByNameAsc(HttpServletRequest request, Model model) throws Exception {
+        String category = request.getParameter("category");
+        if (category == null || category.equals("all"))
+            model.addAttribute("products", productRepository.findByOrderByNameAsc());
+        else {
+            Long categoryId = Long.valueOf(category);
+            Set<Product> productSet = productService.findByCategoryId(categoryId);
+            List<Product> productList = new ArrayList<>(productSet);
+            productList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+
+//            Set<Product> sortedProductSet = productSet.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            model.addAttribute("products", productList);
+        }
+
+
+//
+//        model.addAttribute("products", productRepository.findByOrderByNameAsc());
         return "index";
     }
 

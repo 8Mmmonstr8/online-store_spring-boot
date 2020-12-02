@@ -14,19 +14,33 @@
 
     <div class="container">
         <h2 align="center">Products</h2>
+<!--        TEST-->
+        <form>
+            <p><strong>Category</strong></p>
+            <p><select name="category">
+                <option value="all">All</option>
+                <option value="1">Books</option>
+                <option value="3">Gadgets</option>
+                <option value="5">Furniture</option>
+                <option value="4">Toys</option>
+                <option value="2">Groceries</option>
+            </select>
+                <input type="submit" value="Отправить"></p>
+        </form>
+<!--        TEST-->
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>
                     Name
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
                 </th>
                 <th>Quantity</th>
                 <th>
                     Price
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
                 </th>
                 <th>Category</th>
                 <th>Description</th>
