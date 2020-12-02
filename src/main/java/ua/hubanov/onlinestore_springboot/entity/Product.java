@@ -2,6 +2,7 @@ package ua.hubanov.onlinestore_springboot.entity;
 
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,6 +47,7 @@ public class Product {
 
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publicationDate;
 
 

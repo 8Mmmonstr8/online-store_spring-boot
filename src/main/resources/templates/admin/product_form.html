@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .center {
+            width: 400px; /* Ширина элемента в пикселах */
+            padding: top 20px;/*20px; /* Поля вокруг текста */
+            margin: auto; /* Выравниваем по центру */
+            /* Цвет фона */
+        }
+    </style>
+</head>
+
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+<div class="center">
+
+    <div class="center" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form th:method="POST" th:action="@{/admin/products/product-form}" th:object="${product}">
+                <fieldset class="center">
+                    <h1 align="center">Create product</h1>
+                    <div>
+                        <label for="name"></label>
+                        <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Enter Product Name">
+                    </div>
+                <!--2-->
+                    <div>
+                        <label for="quantity"></label>
+                        <input type="text" class="form-control" th:field="*{quantity}" id="quantity" placeholder="Enter quantity">
+                    </div>
+                <!--3-->
+                    <div>
+                        <label for="price"></label>
+                        <input type="text" class="form-control" th:field="*{price}" id="price" placeholder="Enter product price">
+                    </div>
+                <!--4-->
+                    <div style="margin-top: 24px">
+                        <select th:field="*{category}" class="form-control">
+                            <option th:each="category: ${productCategories}" th:value="${category.id}" th:text="${category.name}"></option>
+                        </select>
+                    </div>
+
+                <!--5-->
+                    <div>
+                        <label for="description"></label>
+                        <input type="text" class="form-control" th:field="*{description}" id="description" placeholder="Enter product description">
+                    </div>
+                <!--6-->
+                    <div style="margin-top: 16px">
+                        <label for="publicationDate">Publication date:</label>
+                        <input type="date" th:field="*{publicationDate}" id="publicationDate"/>
+                    </div>
+
+
+                    <div style="margin-top: 16px">
+                        <div> <!--class="col-xs-6 col-sm-6 col-md-6"-->
+                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Create"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<header th:insert="_blocks/footer :: footer"></header>
+</body>
+</html>

@@ -12,13 +12,54 @@
 
 <main role="main">
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1 th:text="'Hello, this is ' + ${title} + '!'">Hello, world!</h1>
-            <p>My online store info</p>
-            <p><a class="btn btn-primary btn-lg" href="/user/" role="button">Let's GO! »</a></p>
-        </div>
+    <div class="container">
+        <h2 align="center">Products</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>
+                    Name
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
+                </th>
+                <th>Quantity</th>
+                <th>
+                    Price
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
+                </th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>
+                    Publication Date
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>
+                </th>
+                <th>Action</th>
+
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+            <tr th:each ="product : ${products}">
+                <td th:utext="${product.name}" />
+                <td th:utext="${product.quantity}" />
+                <td th:utext="${product.price}" />
+                <td th:utext="${product.category.getName()}" />
+                <td th:utext="${product.description}" />
+                <td th:utext="${product.publicationDate}" />
+                <td>
+                    <!--                <a th:href="@{/admin/users/block(userId=${user.id})}"-->
+                    <!--                   class="btn btn-info btn-sm">-->
+                    <!--                   Edit-->
+                    <!--                </a>-->
+                    <a class="btn btn-info btn-sm">Add to cart</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
 </main>

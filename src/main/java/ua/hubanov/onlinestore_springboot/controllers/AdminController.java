@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.hubanov.onlinestore_springboot.entity.Category;
+import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
@@ -21,13 +22,11 @@ import java.util.Optional;
 public class AdminController {
     private final UserRepository userRepository;
     private final UserService userService;
-    private final CategoryRepository categoryRepository;
 
     @Autowired
     public AdminController(UserRepository userRepository, UserService userService, CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
         this.userService = userService;
-        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("")
@@ -93,25 +92,4 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/products")
-    public String productsMain() {
-        return "/admin/products";
-    }
-
-    @GetMapping("/products/categories")
-    public String categoriesMain(Model model) {
-        model.addAttribute("categories", categoryRepository.findAll());
-        return "/admin/categories";
-    }
-
-    @GetMapping("/products/categories/cat-form")
-    public String newCategory(@ModelAttribute("category") Category category) {
-        return "/admin/category_form";
-    }
-
-    @PostMapping("/products/categories/cat-form")
-    public String create(@ModelAttribute("category") Category category, Model model) {
-        categoryRepository.save(category);
-        return "redirect:/admin/products/categories";
-    }
 }

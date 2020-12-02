@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
 import ua.hubanov.onlinestore_springboot.service.UserService;
 
@@ -22,16 +23,19 @@ import javax.validation.Valid;
 public class MainController {
     private final UserRepository userRepository;
     private final UserService userService;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public MainController(UserRepository userRepository, UserService userService) {
+    public MainController(UserRepository userRepository, UserService userService, ProductRepository productRepository) {
         this.userRepository = userRepository;
         this.userService = userService;
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("title", "Maaain page");
+        model.addAttribute("products", productRepository.findAll());
         return "index";
     }
 
@@ -72,5 +76,41 @@ public class MainController {
         }
 //        userRepository.save(user);
         return "redirect:/login";
+    }
+
+    @GetMapping("/tools/sortbynameasc")
+    public String sortByNameAsc(Model model) {
+        model.addAttribute("products", productRepository.findByOrderByNameAsc());
+        return "index";
+    }
+
+    @GetMapping("/tools/sortbynamedesc")
+    public String sortByNameDesc(Model model) {
+        model.addAttribute("products", productRepository.findByOrderByNameDesc());
+        return "index";
+    }
+
+    @GetMapping("/tools/sortbypriceasc")
+    public String sortByPriceAsc(Model model) {
+        model.addAttribute("products", productRepository.findByOrderByPriceAsc());
+        return "index";
+    }
+
+    @GetMapping("/tools/sortbypricedesc")
+    public String sortByPriceDesc(Model model) {
+        model.addAttribute("products", productRepository.findByOrderByPriceDesc());
+        return "index";
+    }
+
+    @GetMapping("/tools/sortbypublicationdateasc")
+    public String sortByPublicationDateAsc(Model model) {
+        model.addAttribute("products", productRepository.findByOrderByPublicationDateAsc());
+        return "index";
+    }
+
+    @GetMapping("/tools/sortbypublicationdatedesc")
+    public String sortByPublicationDateDesc(Model model) {
+        model.addAttribute("products", productRepository.findByOrderByPublicationDateDesc());
+        return "index";
     }
 }
