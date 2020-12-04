@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Main's Main Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+<!--<div class="container">-->
+
+<!--    <h1 class="jumbotron">-->
+<!--        <span &lt;!&ndash;sec:authentication="name"&ndash;&gt;></span>'s Shopping Cart-->
+<!--    </h1>-->
+
+<!--    <div class="alert alert-info" th:if="${outOfStockMessage}" th:utext="${outOfStockMessage}"></div>-->
+
+<!--    <div class="panel-default well">-->
+<!--        <div class="panel-heading">-->
+<!--            <h1><a th:text="mmm" th:href="#">Title</a></h1>-->
+<!--            <h3 th:text="hhhh">Description</h3>-->
+<!--        </div>-->
+<!--        <div class="row panel-body">-->
+<!--            <div th:inline="text" class="col-md-2">Price: [[${product.getKey().price}]] $</div>-->
+<!--            <div th:inline="text" class="col-md-9">Quantity: [[${product.getValue()}]]</div>-->
+<!--            <a th:href="#" class="col-md-1">-->
+<!--                <button type="button" class="btn btn-primary" th:text="Remove">Remove</button>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <br></br>-->
+<!--    </div>-->
+
+<!--    <div class="row panel-body">-->
+<!--        <h2 class="col-md-11" th:inline="text">Total: [[${total}]]</h2>-->
+<!--        <a th:href="#" class="col-md-1">-->
+<!--            <button type="button" class="btn btn-danger" th:text="Checkout">Checkout</button>-->
+<!--        </a>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+
+<header th:insert="_blocks/footer :: footer"></header>
+
+
+</body>
+</html>

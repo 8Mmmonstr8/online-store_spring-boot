@@ -73,7 +73,7 @@ public class MainController {
     @GetMapping("/cart")
     public String cart(Model model) {
         model.addAttribute("title", "Cart");
-        return "index";
+        return "cart";
     }
 
     @GetMapping("/registration")
@@ -104,7 +104,7 @@ public class MainController {
             Long categoryId = Long.valueOf(category);
             Set<Product> productSet = productService.findByCategoryId(categoryId);
             List<Product> productList = new ArrayList<>(productSet);
-            productList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+            productList.sort(Comparator.comparing(Product::getName));
 
 //            Set<Product> sortedProductSet = productSet.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
             model.addAttribute("products", productList);

@@ -57,6 +57,10 @@ public class User implements UserDetails {
     @Builder.Default
     private boolean isNonLocked = true;
 
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     public Long getId() {
         return id;
     }
