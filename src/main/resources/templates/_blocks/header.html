@@ -5,8 +5,34 @@
             <a sec:authorize="hasAuthority('ADMIN')">
                 <a class="btn btn-warning" th:href="@{/admin}">Admin</a>
             </a>
-            <a class="btn btn-primary" href="/">Main Page</a>
-            <a class="btn btn-primary" href="/cart">Cart</a>
+
+            <a sec:authorize="!isAuthenticated()">
+                <a class="btn btn-primary" th:href="@{/}">Main Page</a>
+            </a>
+
+            <a sec:authorize="hasAuthority('ADMIN')">
+                <a class="btn btn-primary" th:href="@{/user/}">Main Page</a>
+            </a>
+            <a sec:authorize="hasAuthority('USER')">
+                <a class="btn btn-primary" th:href="@{/user/}">Main Page</a>
+            </a>
+
+
+<!--            <a class="btn btn-primary" href="/cart">Cart</a>-->
+            <a sec:authorize="!isAuthenticated()">
+                <a class="btn btn-primary" th:href="@{/login}">Cart</a>
+            </a>
+
+            <a sec:authorize="hasAuthority('ADMIN')">
+                <a class="btn btn-primary" th:href="@{/user/cart}">Cart</a>
+            </a>
+            <a sec:authorize="hasAuthority('USER')">
+                <a class="btn btn-primary" th:href="@{/user/cart}">Cart</a>
+            </a>
+
+
+
+
             <a sec:authorize="!isAuthenticated()">
                 <a class="btn btn-primary" th:href="@{/login}">Login</a>
             </a>

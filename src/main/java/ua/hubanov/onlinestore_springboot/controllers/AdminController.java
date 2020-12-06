@@ -5,16 +5,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.hubanov.onlinestore_springboot.entity.Category;
-import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
-import ua.hubanov.onlinestore_springboot.service.UserService;
+import ua.hubanov.onlinestore_springboot.service.impl.UserService;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller

@@ -28,7 +28,7 @@ public class Category {
     @Size(max = 25)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-    private Set<Product> products;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+//    private Set<Product> products;
 
 }

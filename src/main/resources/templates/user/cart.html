@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Main's Main Page</title>
+    <title>Главная страница</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
@@ -11,24 +11,12 @@
 
 <header th:insert="_blocks/header :: header"></header>
 
+
+
 <main role="main">
 
     <div class="container">
         <h2 align="center">Products</h2>
-<!--        TEST-->
-        <form>
-            <p><strong>Category</strong></p>
-            <p><select name="category">
-                <option value="all">All</option>
-                <option value="1">Books</option>
-                <option value="3">Gadgets</option>
-                <option value="5">Furniture</option>
-                <option value="4">Toys</option>
-                <option value="2">Groceries</option>
-            </select>
-                <input type="submit" value="Отправить"></p>
-        </form>
-<!--        TEST-->
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
@@ -66,27 +54,10 @@
                 <td th:utext="${product.description}" />
                 <td th:utext="${product.publicationDate}" />
                 <td>
-                    <a sec:authorize="!isAuthenticated()">
-                        <a class="btn btn-primary btn-sm" th:href="@{/login}">Add to Cart</a>
+                    <a th:href="@{'/user/cart/removeproduct/{productId}'(productId=${product.id})}" class="col-md-1"
+                       sec:authorize="hasAuthority('USER')">
+                        <button type="button" class="btn btn-primary btn-sm">Remove</button>
                     </a>
-                    <a sec:authorize="hasAuthority('ADMIN')">
-                        <a class="btn btn-primary btn-sm" th:href="@{/user/cart}">Add to Cart</a>
-                    </a>
-<!--                    <a sec:authorize="hasAuthority('USER')">-->
-<!--                        <a class="btn btn-primary btn-sm" th:href="@{'/user/cart/addproduct/{productId}'(productId=${product.id})}"-->
-<!--                        th:if="${product.quantity}>0">-->
-<!--                            <button type="button" class="btn btn-primary btn-sm" th:text="Add to Cart">Add to Cart</button>-->
-<!--                        </a>-->
-<!--                    </a>-->
-                    <a th:href="@{'/user/cart/addproduct/{productId}'(productId=${product.id})}" class="col-md-1"
-                       sec:authorize="hasAuthority('USER')" th:if="${product.quantity}>0">
-                        <button type="button" class="btn btn-primary btn-sm" th:text="Buy">Buy</button>
-                    </a>
-
-<!--                    <a sec:authorize="hasAuthority('USER')" th:if="${cartProducts.contains(product)}">-->
-<!--                        <button type="button" class="btn btn-primary btn-sm" th:text="Added">Added</button>-->
-<!--                    </a>-->
-
                 </td>
             </tr>
             </tbody>
@@ -95,7 +66,12 @@
 
 </main>
 
+
+
+
+
 <header th:insert="_blocks/footer :: footer"></header>
+
 
 </body>
 </html>

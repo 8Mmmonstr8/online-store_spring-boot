@@ -15,6 +15,7 @@ import java.util.Date;
 @ToString
 @Getter
 @Setter
+@EqualsAndHashCode
 
 @Entity
 @Table(name="products")
@@ -38,7 +39,7 @@ public class Product {
     private Double price;
 
    // @Column(name = "category")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="category_id")
     private Category category;
 

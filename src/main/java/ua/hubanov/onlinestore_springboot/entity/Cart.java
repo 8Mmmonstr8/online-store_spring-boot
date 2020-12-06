@@ -22,15 +22,15 @@ public class Cart {
     private Long id;
 
     @JoinColumn(name = "product_id")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Product> products;
 
     @JoinColumn(name = "order_id")
-    @OneToMany
-    private Set<Order> orders = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Order> orders;
 
-    @JoinColumn(name="user_id")
-    @OneToOne
-    private User user;
+//    @JoinColumn(name="user_id")
+//    @OneToOne(fetch = FetchType.EAGER)
+//    private User user;
 
 }

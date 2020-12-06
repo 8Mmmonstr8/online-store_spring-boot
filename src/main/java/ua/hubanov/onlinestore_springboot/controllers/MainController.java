@@ -2,6 +2,7 @@ package ua.hubanov.onlinestore_springboot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,9 @@ import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
-import ua.hubanov.onlinestore_springboot.service.ProductService;
-import ua.hubanov.onlinestore_springboot.service.UserService;
+import ua.hubanov.onlinestore_springboot.service.CartService;
+import ua.hubanov.onlinestore_springboot.service.impl.ProductServiceImpl;
+import ua.hubanov.onlinestore_springboot.service.impl.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,25 +31,29 @@ public class MainController {
     private final UserService userService;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final ProductService productService;
+    private final ProductServiceImpl productService;
+    private CartService cartService;
 
     @Autowired
     public MainController(UserRepository userRepository, UserService userService,
                           ProductRepository productRepository, CategoryRepository categoryRepository,
-                          ProductService productService) {
+                          ProductServiceImpl productService, CartService cartService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productService = productService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")
     public String home(HttpServletRequest request, Model model) throws Exception {
 
         String category = request.getParameter("category");
-        if (category == null || category.equals("all"))
+        if (category == null || category.equals("all")) {
             model.addAttribute("products", productRepository.findAll());
+//            model.addAttribute("cartProducts", cartService.getAllProductsInCart(user));
+        }
         else {
             Long categoryId = Long.valueOf(category);
             model.addAttribute("products", productService.findByCategoryId(categoryId));
@@ -104,7 +110,7 @@ public class MainController {
             Long categoryId = Long.valueOf(category);
             Set<Product> productSet = productService.findByCategoryId(categoryId);
             List<Product> productList = new ArrayList<>(productSet);
-            productList.sort(Comparator.comparing(Product::getName));
+            productList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
 //            Set<Product> sortedProductSet = productSet.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
             model.addAttribute("products", productList);

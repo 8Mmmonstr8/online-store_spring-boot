@@ -1,18 +1,17 @@
 package ua.hubanov.onlinestore_springboot.controllers;
 
+import antlr.ASTNULLType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
-import ua.hubanov.onlinestore_springboot.service.UserService;
-
-import javax.validation.Valid;
-import java.util.List;
+import ua.hubanov.onlinestore_springboot.service.CartService;
+import ua.hubanov.onlinestore_springboot.service.impl.UserService;
 
 @Controller
 @RequestMapping("/user")
@@ -20,15 +19,22 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private ProductRepository productRepository;
+    private CartService cartService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService) {
+    public UserController(UserRepository userRepository, UserService userService,
+                          ProductRepository productRepository, CartService cartService) {
         this.userRepository = userRepository;
         this.userService = userService;
+        this.productRepository = productRepository;
+        this.cartService = cartService;
     }
 
-    @GetMapping("")
-    public String userHome() {
+    @GetMapping("/")
+    public String userHome(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("cartProducts", cartService.getAllProductsInCart(user));
         return "/user/user_home";
     }
 

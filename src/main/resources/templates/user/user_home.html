@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
@@ -10,8 +12,89 @@
 
 <header th:insert="_blocks/header :: header"></header>
 
+<main role="main">
 
-<h2>USERs Home Page!</h2>
+    <div class="container">
+        <h2 align="center">Products</h2>
+        <!--        TEST-->
+        <form>
+            <p><strong>Category</strong></p>
+            <p><select name="category">
+                <option value="all">All</option>
+                <option value="1">Books</option>
+                <option value="3">Gadgets</option>
+                <option value="5">Furniture</option>
+                <option value="4">Toys</option>
+                <option value="2">Groceries</option>
+            </select>
+                <input type="submit" value="Отправить"></p>
+        </form>
+        <!--        TEST-->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>
+                    Name
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
+                </th>
+                <th>Quantity</th>
+                <th>
+                    Price
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
+                </th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>
+                    Publication Date
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>
+                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>
+                </th>
+                <th>Action</th>
+
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+            <tr th:each ="product : ${products}">
+                <td th:utext="${product.name}" />
+                <td th:utext="${product.quantity}" />
+                <td th:utext="${product.price}" />
+                <td th:utext="${product.category.getName()}" />
+                <td th:utext="${product.description}" />
+                <td th:utext="${product.publicationDate}" />
+                <td>
+<!--                    <a sec:authorize="!isAuthenticated()">-->
+<!--                        <a class="btn btn-primary btn-sm" th:href="@{/login}">Add to Cart</a>-->
+<!--                    </a>-->
+                    <a sec:authorize="hasAuthority('ADMIN')">
+                        <a class="btn btn-primary btn-sm" th:href="@{/user/cart}">Add to Cart</a>
+                    </a>
+                    <!--                    <a sec:authorize="hasAuthority('USER')">-->
+                    <!--                        <a class="btn btn-primary btn-sm" th:href="@{'/user/cart/addproduct/{productId}'(productId=${product.id})}"-->
+                    <!--                        th:if="${product.quantity}>0">-->
+                    <!--                            <button type="button" class="btn btn-primary btn-sm" th:text="Add to Cart">Add to Cart</button>-->
+                    <!--                        </a>-->
+                    <!--                    </a>-->
+                    <a th:href="@{'/user/cart/addproduct/{productId}'(productId=${product.id})}" class="col-md-1"
+                       sec:authorize="hasAuthority('USER')" th:if="${product.quantity}>0">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="alert('Added to Cart')">Add to Cart</button>
+                    </a>
+
+<!--                    <a sec:authorize="hasAuthority('USER')" th:if="${cartProducts.contains(product.id)}">-->
+<!--                        <button type="button" class="btn btn-primary btn-sm" th:text="Added">Added</button>-->
+<!--                    </a>-->
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
 
 <header th:insert="_blocks/footer :: footer"></header>
 

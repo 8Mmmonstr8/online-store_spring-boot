@@ -1,4 +1,4 @@
-package ua.hubanov.onlinestore_springboot.service;
+package ua.hubanov.onlinestore_springboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
