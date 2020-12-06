@@ -2,17 +2,14 @@ package ua.hubanov.onlinestore_springboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.hubanov.onlinestore_springboot.entity.Cart;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.CartRepository;
 import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
 import ua.hubanov.onlinestore_springboot.service.CartService;
-import ua.hubanov.onlinestore_springboot.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,12 +18,12 @@ public class CartServiceImpl implements CartService {
 
     final private ProductRepository productRepository;
     final private UserService userService;
-    final private ProductService productService;
+    final private ua.hubanov.onlinestore_springboot.service.ProductService productService;
     final private CartRepository cartRepository;
 
     @Autowired
     public CartServiceImpl(ProductRepository productRepository, UserService userService,
-                           ProductService productService, CartRepository cartRepository) {
+                           ua.hubanov.onlinestore_springboot.service.ProductService productService, CartRepository cartRepository) {
         this.productRepository = productRepository;
         this.userService = userService;
         this.productService = productService;
@@ -53,10 +50,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addProductToCart(User user, Long productId) throws Exception {
         Product product = productService.findProductById(productId).orElseThrow(Exception::new);
-        Cart cart = user.getCart();
-        Set<Product> products = cart.getProducts();
+        Set<Product> products = user.getCart().getProducts();
         products.add(product);
-        user.getCart().setProducts(products);
         cartRepository.save(user.getCart());
     }
 

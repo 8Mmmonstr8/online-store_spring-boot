@@ -11,28 +11,27 @@ import ua.hubanov.onlinestore_springboot.entity.Category;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
+import ua.hubanov.onlinestore_springboot.service.ProductService;
 
 @Controller
 @RequestMapping("/admin/products")
 public class ProductController {
-    private final CategoryRepository categoryRepository;
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(CategoryRepository categoryRepository, ProductRepository productRepository) {
-        this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("")
     public String productsMain(Model model) {
-        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("products", productService.findAll());
         return "/admin/products";
     }
 
     @GetMapping("/categories")
     public String categoriesMain(Model model) {
-        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("categories", productService.findAllCategory());
         return "/admin/categories";
     }
 
@@ -43,19 +42,19 @@ public class ProductController {
 
     @PostMapping("/categories/cat-form")
     public String create(@ModelAttribute("category") Category category, Model model) {
-        categoryRepository.save(category);
+        productService.saveCategory(category);
         return "redirect:/admin/products/categories";
     }
 
     @GetMapping("/product-form")
     public String productForm(@ModelAttribute("product") Product product, Model model) {
-        model.addAttribute("productCategories", categoryRepository.findAll());
+        model.addAttribute("productCategories", productService.findAllCategory());
         return "/admin/product_form";
     }
 
     @PostMapping("/product-form")
     public String createProduct(@ModelAttribute("product") Product product) {
-        productRepository.save(product);
+        productService.saveProduct(product);
         return "redirect:/admin/products";
     }
 }

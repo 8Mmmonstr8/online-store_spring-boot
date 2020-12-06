@@ -6,14 +6,13 @@ import ua.hubanov.onlinestore_springboot.entity.Category;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
-import ua.hubanov.onlinestore_springboot.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ua.hubanov.onlinestore_springboot.service.ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
@@ -39,4 +38,25 @@ public class ProductServiceImpl implements ProductService {
 
 //    public Object findByCategoryId(Long categoryId) {
 //    }
+
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public void saveProduct(Product product) {
+        productRepository.save(product);
+    }
+
+    @Override
+    public List<Category> findAllCategory() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public void saveCategory(Category category) {
+        categoryRepository.save(category);
+    }
 }
