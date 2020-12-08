@@ -7,6 +7,8 @@ import org.springframework.security.access.method.P;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +28,9 @@ public class OrderedProduct {
     @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private Long id;
 
-    @OneToOne(cascade={CascadeType.PERSIST})
-    @JoinColumn(name="product_id")
-    private Product product;
+//    @OneToOne(cascade={CascadeType.PERSIST})
+//    @JoinColumn(name="product_id")
+//    private Product product;
 
     @Column(name = "name", nullable = false)
     @NotNull
@@ -41,7 +43,7 @@ public class OrderedProduct {
 
     @Column(name = "price", nullable = false)
     @NotNull
-    private Double price;
+    private BigDecimal price;
 
     // @Column(name = "category")
     @ManyToOne

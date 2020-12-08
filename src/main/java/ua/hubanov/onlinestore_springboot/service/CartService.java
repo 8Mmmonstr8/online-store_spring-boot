@@ -19,8 +19,12 @@ public interface CartService {
 
  //   void checkout() throws NotEnoughProductsInStockException;
 
-    BigDecimal getTotal();
+//    BigDecimal getTotal();
 
 
-    Set<Product> getAllProductsInCart(User user);
+    Map<Product, Integer> getAllProductsInCart(User user);
+
+    BigDecimal getTotal(Map<Product, Integer> productsWithNeededQuantity);
+
+    void clearProductsFromCart(User user);
 }

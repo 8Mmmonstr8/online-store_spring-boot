@@ -16,7 +16,7 @@
 <main role="main">
 
     <div class="container">
-        <h2 align="center">Products</h2>
+        <h2 align="center">Products in Cart</h2>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
@@ -25,12 +25,6 @@
                     <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
                     <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
                 </th>
-                <th>Quantity</th>
-                <th>
-                    Price
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
-                </th>
                 <th>Category</th>
                 <th>Description</th>
                 <th>
@@ -38,30 +32,84 @@
                     <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>
                     <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>
                 </th>
+
+                <th>Available Quantity</th>
+
+                <th>
+                    Price
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
+                </th>
+                <th>Needed Quantity</th>
                 <th>Action</th>
-
-
             </tr>
-
             </thead>
 
             <tbody>
             <tr th:each ="product : ${products}">
-                <td th:utext="${product.name}" />
-                <td th:utext="${product.quantity}" />
-                <td th:utext="${product.price}" />
-                <td th:utext="${product.category.getName()}" />
-                <td th:utext="${product.description}" />
-                <td th:utext="${product.publicationDate}" />
+                <td th:utext="${product.getKey().getName()}" />
+                <td th:utext="${product.getKey().getCategory().getName()}" />
+                <td th:utext="${product.getKey().getDescription()}" />
+                <td th:utext="${product.getKey().getPublicationDate()}" />
+                <td th:utext="${product.getKey().getQuantity()}" />
+                <td th:utext="${product.getKey().getPrice()}" />
+                <td th:utext="${product.getValue()}" />
                 <td>
-                    <a th:href="@{'/user/cart/removeproduct/{productId}'(productId=${product.id})}" class="col-md-1"
+                    <a th:href="@{'/user/cart/removeproduct/{productId}'(productId=${product.getKey().getId()})}" class="col-md-1"
                        sec:authorize="hasAuthority('USER')">
-                        <button type="button" class="btn btn-primary btn-sm">Remove</button>
+                        <button type="button" class="btn btn-danger btn-sm">Remove</button>
                     </a>
                 </td>
             </tr>
             </tbody>
+
         </table>
+
+        <div>
+        <p align="right" th:text="'Total sum: ' + ${totalPrice}"></p>
+
+        <a th:align="right" th:href="@{'/user/cart/order'}" class="col-md-1"
+           sec:authorize="hasAuthority('USER')">
+            <button type="button" class="btn btn-success" value="Order" style="float: right">Checkout</button>
+        </a>
+        </div>
+
+    </div>
+
+    <hr>
+
+
+    <div class="container">
+        <h2 align="center">Order History</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Order Id</th>
+                <th>Order Date</th>
+                <th>Is Order Approved</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each ="orderedProduct : ${orderedProducts}">
+                <td th:utext="${orderedProduct.getName()}" />
+                <td th:utext="${orderedProduct.getQuantity()}" />
+                <td th:utext="${orderedProduct.getPrice()}" />
+                <td th:utext="${orderedProduct.getCategory().getName()}" />
+                <td th:utext="${orderedProduct.getDescription()}" />
+                <td th:utext="${orderedProduct.getOrder().getId()}" />
+                <td th:utext="${orderedProduct.getOrder().getOrderDate()}" />
+                <td th:utext="${orderedProduct.getOrder().isApproved()}" />
+            </tr>
+            </tbody>
+
+        </table>
+
     </div>
 
 </main>

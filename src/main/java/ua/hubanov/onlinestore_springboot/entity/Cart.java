@@ -3,8 +3,7 @@ package ua.hubanov.onlinestore_springboot.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +23,9 @@ public class Cart {
     @JoinColumn(name = "product_id")
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Product> products;
+
+    @Transient
+    private Map<Product, Integer> productsWithQuantity = new HashMap<>();
 
     @JoinColumn(name = "order_id")
     @OneToMany(fetch = FetchType.EAGER)

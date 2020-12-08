@@ -5,8 +5,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -36,7 +38,8 @@ public class Product {
 
     @Column(name = "price", nullable = false)
     @NotNull
-    private Double price;
+    @DecimalMin(value = "0.00", message = "*Price has to be non negative number")
+    private BigDecimal price;
 
    // @Column(name = "category")
     @ManyToOne(fetch = FetchType.EAGER)

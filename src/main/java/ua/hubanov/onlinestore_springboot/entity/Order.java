@@ -34,4 +34,8 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderedProduct> orderedProducts;
+
+    @Column(name = "isApproved")
+    @Builder.Default
+    private boolean isApproved = false;
 }
