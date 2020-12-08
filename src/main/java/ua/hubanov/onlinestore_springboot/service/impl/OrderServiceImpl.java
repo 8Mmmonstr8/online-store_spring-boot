@@ -7,26 +7,26 @@ import ua.hubanov.onlinestore_springboot.entity.OrderedProduct;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.OrderRepository;
+import ua.hubanov.onlinestore_springboot.repository.OrderedProductRepository;
 import ua.hubanov.onlinestore_springboot.service.CartService;
 import ua.hubanov.onlinestore_springboot.service.OrderService;
 import ua.hubanov.onlinestore_springboot.service.OrderedProductService;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final OrderedProductRepository orderedProductRepository;
     private final OrderRepository orderRepository;
-    private final OrderedProductService orderedProductService;
     private final CartService cartService;
 
     @Autowired
-    public OrderServiceImpl(OrderedProductService orderedProductService, OrderRepository orderRepository,
+    public OrderServiceImpl(OrderedProductRepository orderedProductRepository,
+                            OrderRepository orderRepository,
                             CartService cartService) {
+        this.orderedProductRepository = orderedProductRepository;
         this.orderRepository = orderRepository;
-        this.orderedProductService = orderedProductService;
         this.cartService = cartService;
     }
 
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         Set<OrderedProduct> orderedProducts = new HashSet<>();
         for (Map.Entry<Product, Integer> entry : productsForOrder.entrySet()) {
             OrderedProduct orderedProduct = new OrderedProduct();
-//            orderedProduct.setProduct(entry.getKey());
+            orderedProduct.setProductId(entry.getKey().getId());
             orderedProduct.setName(entry.getKey().getName());
             orderedProduct.setQuantity(entry.getValue());
             orderedProduct.setPrice(entry.getKey().getPrice());
@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
             orderedProduct.setDescription(entry.getKey().getDescription());
             orderedProduct.setOrder(order);
             orderedProducts.add(orderedProduct);
-            orderedProductService.save(orderedProduct);
+            saveProduct(orderedProduct);
         }
 
         order.setOrderedProducts(orderedProducts);
@@ -73,4 +73,57 @@ public class OrderServiceImpl implements OrderService {
 
         return allOrderedProducts;
     }
+
+    @Override
+    public Set<Order> findAll() {
+        return new HashSet<>(orderRepository.findAll());
+    }
+
+    @Override
+    public Set<Order> findAllByApprovedFalse() {
+        return orderRepository.findAllByIsApprovedIsFalse();
+    }
+
+    @Override
+    public Set<Order> findAllByApprovedTrue() {
+        return orderRepository.findAllByIsApprovedIsTrue();
+    }
+
+    @Override
+    public void approveOrder(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId).orElseThrow(Exception::new);
+        order.setApproved(true);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public Order findOrderById(Long orderId) throws Exception {
+        return orderRepository.findOneById(orderId).orElseThrow(Exception::new);
+    }
+
+
+
+    @Override
+    public void saveProduct(OrderedProduct orderedProduct) {
+        orderedProductRepository.save(orderedProduct);
+    }
+
+    @Override
+    public Set<OrderedProduct> findAllOrderedProductByOrder(Order order) {
+        return orderedProductRepository.findAllByOrder(order);
+    }
+
+    @Override
+    public Set<OrderedProduct> findAllOrderedProductByOrderId(Long orderId) throws Exception {
+        return findAllOrderedProductByOrder(findOrderById(orderId));
+    }
+
+    @Override
+    public BigDecimal getTotal(Set<OrderedProduct> products) {
+        return products.stream()
+                .map(product -> product.getPrice().multiply(BigDecimal.valueOf(product.getQuantity())))
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
+    }
+
 }

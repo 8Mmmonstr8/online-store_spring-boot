@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
+import ua.hubanov.onlinestore_springboot.service.OrderService;
 import ua.hubanov.onlinestore_springboot.service.impl.UserService;
 
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class AdminController {
     private final UserService userService;
 
     @Autowired
-    public AdminController(UserRepository userRepository, UserService userService, CategoryRepository categoryRepository) {
+    public AdminController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;
     }

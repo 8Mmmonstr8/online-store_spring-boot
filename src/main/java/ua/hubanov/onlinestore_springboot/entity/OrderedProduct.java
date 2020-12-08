@@ -28,9 +28,9 @@ public class OrderedProduct {
     @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private Long id;
 
-//    @OneToOne(cascade={CascadeType.PERSIST})
-//    @JoinColumn(name="product_id")
-//    private Product product;
+    @Column(name = "product_id", nullable = false)
+    @NotNull
+    private Long productId;
 
     @Column(name = "name", nullable = false)
     @NotNull
