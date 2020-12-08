@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.service.CartService;
 import ua.hubanov.onlinestore_springboot.service.OrderService;
-import ua.hubanov.onlinestore_springboot.service.ProductService;
-import ua.hubanov.onlinestore_springboot.service.impl.CartServiceImpl;
-import ua.hubanov.onlinestore_springboot.service.impl.ProductServiceImpl;
-
-import java.security.Principal;
 
 @Controller
 public class CartController {
@@ -31,7 +26,8 @@ public class CartController {
     public String cart(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("products", cartService.getAllProductsInCart(user));
         model.addAttribute("totalPrice", cartService.getTotal(cartService.getAllProductsInCart(user)));
-        model.addAttribute("orderedProducts", orderService.getAllOrderedProducts(user));
+        model.addAttribute("approvedOrderedProducts", orderService.getAllApprovedOrderedProductsOfUser(user));
+        model.addAttribute("notApprovedOrderedProducts", orderService.getAllNotApprovedOrderedProductsOfUser(user));
         return "/user/cart";
     }
 

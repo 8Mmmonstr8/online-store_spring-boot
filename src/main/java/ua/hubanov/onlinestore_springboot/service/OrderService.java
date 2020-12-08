@@ -1,5 +1,6 @@
 package ua.hubanov.onlinestore_springboot.service;
 
+import org.springframework.core.Ordered;
 import ua.hubanov.onlinestore_springboot.entity.Order;
 import ua.hubanov.onlinestore_springboot.entity.OrderedProduct;
 import ua.hubanov.onlinestore_springboot.entity.User;
@@ -10,7 +11,11 @@ import java.util.Set;
 
 public interface OrderService {
     void makeOrder(User user);
-    Set<OrderedProduct> getAllOrderedProducts(User user);
+    Set<OrderedProduct> getAllOrderedProductsOfUser(User user);
+    Set<OrderedProduct> getAllApprovedOrderedProductsOfUser(User user);
+    Set<OrderedProduct> getAllNotApprovedOrderedProductsOfUser(User user);
+
+
     Set<Order> findAll();
     Set<Order> findAllByApprovedFalse();
     Set<Order> findAllByApprovedTrue();

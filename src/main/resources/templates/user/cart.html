@@ -78,6 +78,40 @@
 
     <hr>
 
+    <div class="container">
+        <h2 align="center">Waiting For Approval</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Order Id</th>
+                <th>Order Date</th>
+                <th>Is Order Approved</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each ="notApprovedOrderedProduct : ${notApprovedOrderedProducts}">
+                <td th:utext="${notApprovedOrderedProduct.getName()}" />
+                <td th:utext="${notApprovedOrderedProduct.getQuantity()}" />
+                <td th:utext="${notApprovedOrderedProduct.getPrice()}" />
+                <td th:utext="${notApprovedOrderedProduct.getCategory().getName()}" />
+                <td th:utext="${notApprovedOrderedProduct.getDescription()}" />
+                <td th:utext="${notApprovedOrderedProduct.getOrder().getId()}" />
+                <td th:utext="${notApprovedOrderedProduct.getOrder().getOrderDate()}" />
+                <td th:utext="${notApprovedOrderedProduct.getOrder().isApproved()}" />
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <hr>
 
     <div class="container">
         <h2 align="center">Order History</h2>
@@ -96,15 +130,15 @@
             </thead>
 
             <tbody>
-            <tr th:each ="orderedProduct : ${orderedProducts}">
-                <td th:utext="${orderedProduct.getName()}" />
-                <td th:utext="${orderedProduct.getQuantity()}" />
-                <td th:utext="${orderedProduct.getPrice()}" />
-                <td th:utext="${orderedProduct.getCategory().getName()}" />
-                <td th:utext="${orderedProduct.getDescription()}" />
-                <td th:utext="${orderedProduct.getOrder().getId()}" />
-                <td th:utext="${orderedProduct.getOrder().getOrderDate()}" />
-                <td th:utext="${orderedProduct.getOrder().isApproved()}" />
+            <tr th:each ="approvedOrderedProduct : ${approvedOrderedProducts}">
+                <td th:utext="${approvedOrderedProduct.getName()}" />
+                <td th:utext="${approvedOrderedProduct.getQuantity()}" />
+                <td th:utext="${approvedOrderedProduct.getPrice()}" />
+                <td th:utext="${approvedOrderedProduct.getCategory().getName()}" />
+                <td th:utext="${approvedOrderedProduct.getDescription()}" />
+                <td th:utext="${approvedOrderedProduct.getOrder().getId()}" />
+                <td th:utext="${approvedOrderedProduct.getOrder().getOrderDate()}" />
+                <td th:utext="${approvedOrderedProduct.getOrder().isApproved()}" />
             </tr>
             </tbody>
 

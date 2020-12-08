@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Set<OrderedProduct> getAllOrderedProducts(User user) {
+    public Set<OrderedProduct> getAllOrderedProductsOfUser(User user) {
         Set<OrderedProduct> allOrderedProducts = new HashSet<>();
 
         Set<Order> allOrders = orderRepository.findAllByUser(user);
@@ -72,6 +72,28 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return allOrderedProducts;
+    }
+
+    @Override
+    public Set<OrderedProduct> getAllApprovedOrderedProductsOfUser(User user) {
+        Set<OrderedProduct> allApprovedOrderedProducts = new HashSet<>();
+        Set<Order> allApprovedOrdersOfUser = orderRepository.findAllByUserAndIsApprovedIsTrue(user);
+
+        for (Order x : allApprovedOrdersOfUser) {
+            allApprovedOrderedProducts.addAll(x.getOrderedProducts());
+        }
+        return allApprovedOrderedProducts;
+    }
+
+    @Override
+    public Set<OrderedProduct> getAllNotApprovedOrderedProductsOfUser(User user) {
+        Set<OrderedProduct> allNotApprovedOrderedProducts = new HashSet<>();
+        Set<Order> allNotApprovedOrdersOfUser = orderRepository.findAllByUserAndIsApprovedIsFalse(user);
+
+        for (Order x : allNotApprovedOrdersOfUser) {
+            allNotApprovedOrderedProducts.addAll(x.getOrderedProducts());
+        }
+        return allNotApprovedOrderedProducts;
     }
 
     @Override
