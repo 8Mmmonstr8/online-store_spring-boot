@@ -29,4 +29,6 @@ public interface OrderService {
 
     BigDecimal getTotal(Set<OrderedProduct> products);
 
+    void declineOrder(Long orderId) throws Exception;
+
 }

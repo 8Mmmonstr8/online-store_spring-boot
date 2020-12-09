@@ -32,6 +32,7 @@ public class CartServiceImpl implements CartService {
         this.cartRepository = cartRepository;
     }
 
+    // TODO remake method
     @Override
     public void removeProductFromCart(User user, Long productId) throws Exception {
 //        user.getCart().setProducts(user.getCart().getProducts().stream().filter(a -> (!a.getId().equals(productId)) ).collect(Collectors.toSet()));
@@ -49,7 +50,7 @@ public class CartServiceImpl implements CartService {
         Product product = productService.findProductById(productId).orElseThrow(Exception::new);
         Set<Product> products = user.getCart().getProducts();
         products.add(product);
-        cartRepository.save(user.getCart());
+        cartRepository.saveAndFlush(user.getCart());
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+//@ToString
 @Getter
 @Setter
 
@@ -38,4 +38,15 @@ public class Order {
     @Column(name = "isApproved")
     @Builder.Default
     private boolean isApproved = false;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", orderDate=" + orderDate +
+                ", orderedProducts=" +
+                ", isApproved=" + isApproved +
+                '}';
+    }
 }

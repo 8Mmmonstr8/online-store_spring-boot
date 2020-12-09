@@ -2,6 +2,7 @@ package ua.hubanov.onlinestore_springboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.hubanov.onlinestore_springboot.entity.Order;
 import ua.hubanov.onlinestore_springboot.entity.OrderedProduct;
 import ua.hubanov.onlinestore_springboot.entity.Product;
@@ -116,6 +117,18 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(Exception::new);
         order.setApproved(true);
         orderRepository.save(order);
+    }
+
+    @Override
+    public void declineOrder(Long orderId) throws Exception {
+        // Удалить ордер с данным айди, и заполнить корзину продуктами из ордера по айдишнику в ОрдередПродактс
+        Order currentOrder = orderRepository.findOneById(orderId).orElseThrow(Exception::new);
+
+        for (OrderedProduct x : currentOrder.getOrderedProducts()) {
+            cartService.addProductToCart(currentOrder.getUser(), x.getProductId());
+        }
+
+        orderRepository.deleteById(orderId);
     }
 
     @Override

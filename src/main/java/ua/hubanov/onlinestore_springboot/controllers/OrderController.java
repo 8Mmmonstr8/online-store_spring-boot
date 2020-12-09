@@ -56,7 +56,7 @@ public class OrderController {
 
     @GetMapping("/admin/orders/decline")
     public String declineOrder(@RequestParam("orderId") Long orderId) throws Exception{
- //       orderService.declineOrder(orderId);
+        orderService.declineOrder(orderId);
         return "redirect:/admin/orders";
     }
 }
