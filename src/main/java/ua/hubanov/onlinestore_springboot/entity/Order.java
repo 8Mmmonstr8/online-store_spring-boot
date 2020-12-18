@@ -32,6 +32,10 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderDate;
 
+    @ManyToOne
+    @JoinColumn(name="cart_id")
+    private Cart cart;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderedProduct> orderedProducts;
 

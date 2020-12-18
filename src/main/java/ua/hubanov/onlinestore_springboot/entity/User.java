@@ -26,7 +26,7 @@ import java.util.List;
         uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
