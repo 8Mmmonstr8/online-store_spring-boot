@@ -20,9 +20,9 @@ public class Cart {
     @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private Long id;
 
-    @JoinColumn(name = "product_id")
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Product> products;
+//    @JoinColumn(name = "product_id")
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private Set<Product> products;
 
     @Transient
     private Map<Product, Integer> productsWithQuantity = new HashMap<>();

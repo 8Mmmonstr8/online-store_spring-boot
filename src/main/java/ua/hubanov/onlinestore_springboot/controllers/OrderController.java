@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.hubanov.onlinestore_springboot.entity.OrderedProduct;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.exceptions.StockIsNotEnoughException;
 import ua.hubanov.onlinestore_springboot.service.OrderService;
 import ua.hubanov.onlinestore_springboot.service.OrderedProductService;
 
@@ -25,10 +26,16 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    //TODO think is StockIsNotEnough exception needed hear and rewrite
     @GetMapping("/user/cart/order")
-    public String makeOrder(@AuthenticationPrincipal User user) {
+    public String makeOrder(@AuthenticationPrincipal User user, Model model) {
 
-        orderService.makeOrder(user);
+        try {
+            orderService.makeOrder(user);
+        } catch (StockIsNotEnoughException e) {
+            model.addAttribute("errorString", e.getMessage());
+            return "error_page";
+        }
 
         return "redirect:/user/cart";
     }
@@ -40,9 +47,17 @@ public class OrderController {
         return "/admin/orders";
     }
 
+    //TODO think about StockIsNotEnoughException
     @GetMapping("/admin/orders/approve")
-    public String approveOrder(@RequestParam("orderId") Long orderId) throws Exception{
-        orderService.approveOrder(orderId);
+    public String approveOrder(@RequestParam("orderId") Long orderId, Model model) throws Exception{
+
+        try {
+            orderService.approveOrder(orderId);
+        } catch (StockIsNotEnoughException e) {
+            model.addAttribute("errorString", e.getMessage());
+            return "error_page";
+        }
+
         return "redirect:/admin/orders";
     }
 

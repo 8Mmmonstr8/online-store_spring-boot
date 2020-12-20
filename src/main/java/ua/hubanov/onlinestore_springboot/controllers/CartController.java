@@ -5,11 +5,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.exceptions.StockIsNotEnoughException;
 import ua.hubanov.onlinestore_springboot.service.CartService;
 import ua.hubanov.onlinestore_springboot.service.OrderService;
+
+import javax.validation.Valid;
 
 @Controller
 public class CartController {
@@ -30,6 +33,23 @@ public class CartController {
         model.addAttribute("notApprovedOrderedProducts", orderService.getAllNotApprovedOrderedProductsOfUser(user));
         return "/user/cart";
     }
+
+    //TODO make validation of neededQuantity without error_page
+    @PostMapping("/user/cart")
+    public String updateNeededQuantity(@AuthenticationPrincipal User user,
+                                       @RequestParam(value = "productId") Long productId,
+                                       @RequestParam(value = "neededQuantity") Integer neededQuantity,
+                                       Model model) throws Exception {
+        try {
+            cartService.updateNeededQuantity(user, productId, neededQuantity);
+        } catch (StockIsNotEnoughException e) {
+            e.printStackTrace();
+            model.addAttribute("errorString", e.getMessage());
+            return "error_page";
+        }
+        return "redirect:/user/cart";
+    }
+
 
     @Transactional
     @GetMapping("/user/cart/addproduct/{productId}")

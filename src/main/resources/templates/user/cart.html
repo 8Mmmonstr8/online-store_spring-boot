@@ -53,13 +53,38 @@
                 <td th:utext="${product.getKey().getPublicationDate()}" />
                 <td th:utext="${product.getKey().getQuantity()}" />
                 <td th:utext="${product.getKey().getPrice()}" />
-                <td th:utext="${product.getValue()}" />
+
+
+
+
+
+<!--                <td th:utext="${product.getValue()}" />-->
+                <td>
+                    <form th:method="POST" th:action="@{/user/cart}" th:object="${product}">
+                        <div style="display:flex">
+                            <input th:name="neededQuantity"
+                                   th:value="${product.getValue()}"
+                                   th:size="2">
+                            <input type="hidden" id="productId" th:name="productId" th:value="${product.getKey().getId()}"/>
+                            <input type="submit" class="btn btn-sm btn-success" value="Submit">
+                        </div>
+                    </form>
+                </td>
+
+
+
+
+
+
                 <td>
                     <a th:href="@{'/user/cart/removeproduct/{productId}'(productId=${product.getKey().getId()})}" class="col-md-1"
                        sec:authorize="hasAuthority('USER')">
                         <button type="button" class="btn btn-danger btn-sm">Remove</button>
                     </a>
                 </td>
+
+                    <p class="text-danger" th:text="${errorString}"></p>
+
             </tr>
             </tbody>
 

@@ -4,13 +4,14 @@ import org.springframework.core.Ordered;
 import ua.hubanov.onlinestore_springboot.entity.Order;
 import ua.hubanov.onlinestore_springboot.entity.OrderedProduct;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.exceptions.StockIsNotEnoughException;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
 
 public interface OrderService {
-    void makeOrder(User user);
+    void makeOrder(User user) throws StockIsNotEnoughException;
     Set<OrderedProduct> getAllOrderedProductsOfUser(User user);
     Set<OrderedProduct> getAllApprovedOrderedProductsOfUser(User user);
     Set<OrderedProduct> getAllNotApprovedOrderedProductsOfUser(User user);

@@ -2,16 +2,16 @@ package ua.hubanov.onlinestore_springboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.hubanov.onlinestore_springboot.entity.Order;
 import ua.hubanov.onlinestore_springboot.entity.OrderedProduct;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
+import ua.hubanov.onlinestore_springboot.exceptions.StockIsNotEnoughException;
 import ua.hubanov.onlinestore_springboot.repository.OrderRepository;
 import ua.hubanov.onlinestore_springboot.repository.OrderedProductRepository;
 import ua.hubanov.onlinestore_springboot.service.CartService;
 import ua.hubanov.onlinestore_springboot.service.OrderService;
-import ua.hubanov.onlinestore_springboot.service.OrderedProductService;
+import ua.hubanov.onlinestore_springboot.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -21,19 +21,21 @@ public class OrderServiceImpl implements OrderService {
     private final OrderedProductRepository orderedProductRepository;
     private final OrderRepository orderRepository;
     private final CartService cartService;
+    private final ProductService productService;
 
     @Autowired
     public OrderServiceImpl(OrderedProductRepository orderedProductRepository,
                             OrderRepository orderRepository,
-                            CartService cartService) {
+                            CartService cartService, ProductService productService) {
         this.orderedProductRepository = orderedProductRepository;
         this.orderRepository = orderRepository;
         this.cartService = cartService;
+        this.productService = productService;
     }
 
-    // TODO method is unfinished (add removing products from cart)
+    // TODO remake method
     @Override
-    public void makeOrder(User user) {
+    public void makeOrder(User user) throws StockIsNotEnoughException {
         Map<Product, Integer> productsForOrder = cartService.getAllProductsInCart(user);
 
         Order order = new Order();
@@ -46,7 +48,12 @@ public class OrderServiceImpl implements OrderService {
             OrderedProduct orderedProduct = new OrderedProduct();
             orderedProduct.setProductId(entry.getKey().getId());
             orderedProduct.setName(entry.getKey().getName());
-            orderedProduct.setQuantity(entry.getValue());
+
+            if (entry.getValue() <= entry.getKey().getQuantity())
+                orderedProduct.setQuantity(entry.getValue());
+            else
+                throw new StockIsNotEnoughException();
+
             orderedProduct.setPrice(entry.getKey().getPrice());
             orderedProduct.setCategory(entry.getKey().getCategory());
             orderedProduct.setDescription(entry.getKey().getDescription());
@@ -113,12 +120,32 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAllByIsApprovedIsTrue();
     }
 
+    //TODO rewrite method
     @Override
     public void approveOrder(Long orderId) throws Exception {
         Order order = orderRepository.findById(orderId).orElseThrow(Exception::new);
+
+        Set<OrderedProduct> orderedProducts = order.getOrderedProducts();
+        for (OrderedProduct x : orderedProducts) {
+            if (x.getQuantity() > productService
+                    .findProductById(x.getProductId())
+                    .orElseThrow(Exception::new).getQuantity()) {
+                throw new StockIsNotEnoughException();
+            }
+        }
+
         order.setApproved(true);
         orderRepository.save(order);
+
+        for (OrderedProduct x : orderedProducts) {
+            Product product = productService
+                    .findProductById(x.getProductId())
+                    .orElseThrow(Exception::new);
+            product.setQuantity(product.getQuantity() - x.getQuantity());
+            productService.saveProduct(product);
+        }
     }
+
 
     @Override
     public void declineOrder(Long orderId) throws Exception {

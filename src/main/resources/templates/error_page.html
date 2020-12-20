@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<header th:insert="_blocks/header :: header"></header>
+
+
+
+<main role="main">
+    <h3 th:text="${errorString}"></h3>
+</main>
+
+
+
+<header th:insert="_blocks/footer :: footer"></header>
+
+</body>
+</html>
