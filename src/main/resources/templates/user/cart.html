@@ -14,31 +14,37 @@
 
 
 <main role="main">
+<!--    <div th:if="${param.errorString == 'Stock is not enough'}">-->
+<!--        <div class="alert alert-danger">-->
+<!--            Invalid username/password or blocked. Please contact admin@admin.com-->
+<!--        </div>-->
+<!--    </div>-->
 
     <div class="container">
         <h2 align="center">Products in Cart</h2>
+        <p align="center" class="text-danger" th:text="${errorString}"></p>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>
                     Name
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
+<!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>-->
+<!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>-->
                 </th>
                 <th>Category</th>
                 <th>Description</th>
                 <th>
                     Publication Date
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>
+<!--                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>-->
+<!--                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>-->
                 </th>
 
                 <th>Available Quantity</th>
 
                 <th>
                     Price
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
+<!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>-->
+<!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>-->
                 </th>
                 <th>Needed Quantity</th>
                 <th>Action</th>
@@ -83,8 +89,6 @@
                     </a>
                 </td>
 
-                    <p class="text-danger" th:text="${errorString}"></p>
-
             </tr>
             </tbody>
 
@@ -115,7 +119,6 @@
                 <th>Description</th>
                 <th>Order Id</th>
                 <th>Order Date</th>
-                <th>Is Order Approved</th>
             </tr>
             </thead>
 
@@ -128,7 +131,6 @@
                 <td th:utext="${notApprovedOrderedProduct.getDescription()}" />
                 <td th:utext="${notApprovedOrderedProduct.getOrder().getId()}" />
                 <td th:utext="${notApprovedOrderedProduct.getOrder().getOrderDate()}" />
-                <td th:utext="${notApprovedOrderedProduct.getOrder().isApproved()}" />
             </tr>
             </tbody>
 
@@ -150,7 +152,6 @@
                 <th>Description</th>
                 <th>Order Id</th>
                 <th>Order Date</th>
-                <th>Is Order Approved</th>
             </tr>
             </thead>
 
@@ -163,7 +164,6 @@
                 <td th:utext="${approvedOrderedProduct.getDescription()}" />
                 <td th:utext="${approvedOrderedProduct.getOrder().getId()}" />
                 <td th:utext="${approvedOrderedProduct.getOrder().getOrderDate()}" />
-                <td th:utext="${approvedOrderedProduct.getOrder().isApproved()}" />
             </tr>
             </tbody>
 

@@ -57,6 +57,10 @@ public class User implements UserDetails {
     @Builder.Default
     private boolean isNonLocked = true;
 
+    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     public Cart getCart() {
         return cart;
     }
@@ -64,10 +68,6 @@ public class User implements UserDetails {
     public void setCart(Cart cart) {
         this.cart = cart;
     }
-
-    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
 
     public Long getId() {
         return id;
@@ -107,6 +107,10 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 
 

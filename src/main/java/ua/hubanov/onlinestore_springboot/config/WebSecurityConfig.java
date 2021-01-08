@@ -8,13 +8,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ua.hubanov.onlinestore_springboot.service.impl.UserService;
+import ua.hubanov.onlinestore_springboot.service.impl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+            .userDetailsService(userServiceImpl).passwordEncoder(bCryptPasswordEncoder());
 //        auth.inMemoryAuthentication().withUser("user")
 //                .password("{noop}password").roles("USER");
     }

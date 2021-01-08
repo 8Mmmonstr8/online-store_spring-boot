@@ -35,21 +35,21 @@
             <tr>
                 <th>
                     Name
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>
+                    <a class="btn btn-dark btn-sm" th:href="@{'/user/?category={catId}&sortBy=nameAsc'(catId=${category})}" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" th:href="@{'/user/?category={catId}&sortBy=nameDesc'(catId=${category})}" role="button">↑</a>
                 </th>
                 <th>Quantity</th>
                 <th>
                     Price
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>
-                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>
+                    <a class="btn btn-dark btn-sm" th:href="@{'/user/?category={catId}&sortBy=priceAsc'(catId=${category})}" role="button">↓</a>
+                    <a class="btn btn-dark btn-sm" th:href="@{'/user/?category={catId}&sortBy=priceDesc'(catId=${category})}" role="button">↑</a>
                 </th>
                 <th>Category</th>
                 <th>Description</th>
                 <th>
                     Publication Date
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>
-                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>
+                    <a align="right" class="btn btn-dark btn-sm" th:href="@{'/user/?category={catId}&sortBy=pubDateAsc'(catId=${category})}" role="button">↓</a>
+                    <a align="right" class="btn btn-dark btn-sm" th:href="@{'/user/?category={catId}&sortBy=pubDateDesc'(catId=${category})}" role="button">↑</a>
                 </th>
                 <th>Action</th>
 

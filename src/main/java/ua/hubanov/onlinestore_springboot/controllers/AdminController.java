@@ -7,22 +7,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.hubanov.onlinestore_springboot.entity.User;
-import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
-import ua.hubanov.onlinestore_springboot.service.OrderService;
-import ua.hubanov.onlinestore_springboot.service.impl.UserService;
+import ua.hubanov.onlinestore_springboot.service.UserService;
+import ua.hubanov.onlinestore_springboot.service.impl.UserServiceImpl;
 
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
-    public AdminController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -33,37 +30,27 @@ public class AdminController {
 
     @GetMapping("/users")
     public String index(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
         return "/admin/users";
     }
 
     @GetMapping("/users/delete")
     public String removeUser(@RequestParam("userId") Long userId) throws Exception {
-        Optional<User> userFromDB = userRepository.findById(userId);
+        Optional<User> userFromDB = userService.findById(userId);
         User user = userFromDB.orElseThrow(Exception::new);
-        userRepository.delete(user);
+        userService.delete(user);
         return "redirect:/admin/users";
     }
 
     @GetMapping("/users/block")
     public String blockUser(@RequestParam("userId") Long userId) {
-        Optional<User> userFromDB = userRepository.findById(userId);
-        User user = new User();
-        if (userFromDB.isPresent())
-            user = userFromDB.get();
-        user.setAccountLocked();
-        userRepository.save(user);
+        userService.blockUser(userId);
         return "redirect:/admin/users";
     }
 
     @GetMapping("/users/unblock")
     public String unBlockUser(@RequestParam("userId") Long userId) {
-        Optional<User> userFromDB = userRepository.findById(userId);
-        User user = new User();
-        if (userFromDB.isPresent())
-            user = userFromDB.get();
-        user.setAccountUnLocked();
-        userRepository.save(user);
+        userService.unblockUser(userId);
         return "redirect:/admin/users";
     }
 
@@ -79,13 +66,8 @@ public class AdminController {
                                  @RequestParam String firstName,
                                  @RequestParam String lastName,
                                  @RequestParam String password) {
-//        if (bindingResult.hasErrors())
-//            return "user/user_account";
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPassword(new BCryptPasswordEncoder().encode(password));
 
-        userRepository.save(user);
+        userService.updateUser(user, firstName, lastName, password);
         return "redirect:/admin";
     }
 

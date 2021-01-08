@@ -11,17 +11,19 @@ import org.springframework.stereotype.Service;
 import ua.hubanov.onlinestore_springboot.entity.Cart;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.repository.UserRepository;
+import ua.hubanov.onlinestore_springboot.service.UserService;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService  {
 
     UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -39,7 +41,8 @@ public class UserService implements UserDetailsService {
 //
 //    }
 
-    public boolean saveUser(User user) {
+    @Override
+    public boolean saveNewUser(User user) {
         Optional<User> userFromDb = userRepository.findByEmail(user.getEmail());
 
         if (userFromDb.isPresent())
@@ -57,5 +60,48 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("user " + email + "was not found"));
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
+    public void delete(User user) {
+        if (user.getRole().name().equals("ADMIN"))
+            return;
+        userRepository.delete(user);
+    }
+
+    @Override
+    public void blockUser(Long userId) {
+        Optional<User> userFromDB = userRepository.findById(userId);
+        User user = userFromDB.orElseThrow(() -> new UsernameNotFoundException("user with id " + userId + "was not found"));
+        if (user.getRole().name().equals("ADMIN"))
+            return;
+        user.setAccountLocked();
+        userRepository.save(user);
+    }
+
+    @Override
+    public void unblockUser(Long userId) {
+        Optional<User> userFromDB = userRepository.findById(userId);
+        User user = userFromDB.orElseThrow(() -> new UsernameNotFoundException("user with id " + userId + "was not found"));
+        user.setAccountUnLocked();
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(User user, String firstName, String lastName, String password) {
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        userRepository.save(user);
     }
 }

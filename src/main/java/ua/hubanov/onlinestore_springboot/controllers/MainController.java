@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
-import ua.hubanov.onlinestore_springboot.repository.CategoryRepository;
-import ua.hubanov.onlinestore_springboot.repository.ProductRepository;
-import ua.hubanov.onlinestore_springboot.repository.UserRepository;
-import ua.hubanov.onlinestore_springboot.service.CartService;
-import ua.hubanov.onlinestore_springboot.service.impl.ProductServiceImpl;
-import ua.hubanov.onlinestore_springboot.service.impl.UserService;
+import ua.hubanov.onlinestore_springboot.service.ProductService;
+import ua.hubanov.onlinestore_springboot.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,40 +22,38 @@ import java.util.*;
 
 @Controller
 public class MainController {
-    private final UserRepository userRepository;
-    private final UserService userService;
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
-    private final ProductServiceImpl productService;
-    private CartService cartService;
+    private final UserServiceImpl userServiceImpl;
+    private final ProductService productService;
 
     @Autowired
-    public MainController(UserRepository userRepository, UserService userService,
-                          ProductRepository productRepository, CategoryRepository categoryRepository,
-                          ProductServiceImpl productService, CartService cartService) {
-        this.userRepository = userRepository;
-        this.userService = userService;
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
+    public MainController(UserServiceImpl userServiceImpl, ProductService productService) {
+        this.userServiceImpl = userServiceImpl;
         this.productService = productService;
-        this.cartService = cartService;
     }
 
     @GetMapping("/")
     public String home(HttpServletRequest request, Model model) throws Exception {
-
         String category = request.getParameter("category");
+        String sortBy = request.getParameter("sortBy");
+        if (sortBy == null) {
+            sortBy = "nameAsc";
+        }
+        List<Product> products;
         if (category == null || category.equals("all")) {
-            model.addAttribute("products", productRepository.findAll());
-//            model.addAttribute("cartProducts", cartService.getAllProductsInCart(user));
-        }
-        else {
+            products = productService.findAll();
+            products = productService.sortProductsBy(products, sortBy);
+            category = "all";
+        } else {
             Long categoryId = Long.valueOf(category);
-            model.addAttribute("products", productService.findByCategoryId(categoryId));
+            products = productService.findAllByCategoryId(categoryId);
+            products = productService.sortProductsBy(products, sortBy);
         }
+        model.addAttribute("products", products);
+        model.addAttribute("category", category);
+        model.addAttribute("sortBy", sortBy);
+
         return "index";
     }
-//    departmentRepo.findById(departmentId).employees
 
     @GetMapping("/login")
     public String login() {
@@ -75,12 +69,6 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping("/cart")
-    public String cart(Model model) {
-        model.addAttribute("title", "Cart");
-        return "cart";
-    }
-
     @GetMapping("/registration")
     public String newPerson(@ModelAttribute("user") User user) {
         return "registration";
@@ -92,62 +80,10 @@ public class MainController {
         if (bindingResult.hasErrors())
             return "registration";
 
-        if (!userService.saveUser(user)) {
+        if (!userServiceImpl.saveNewUser(user)) {
             model.addAttribute("userEmailError", "Пользователь с таким Email уже существует");
             return "registration";
         }
-//        userRepository.save(user);
         return "redirect:/login";
-    }
-
-    @GetMapping("/tools/sortbynameasc")
-    public String sortByNameAsc(HttpServletRequest request, Model model) throws Exception {
-        String category = request.getParameter("category");
-        if (category == null || category.equals("all"))
-            model.addAttribute("products", productRepository.findByOrderByNameAsc());
-        else {
-            Long categoryId = Long.valueOf(category);
-            Set<Product> productSet = productService.findByCategoryId(categoryId);
-            List<Product> productList = new ArrayList<>(productSet);
-            productList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
-
-//            Set<Product> sortedProductSet = productSet.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
-            model.addAttribute("products", productList);
-        }
-
-
-//
-//        model.addAttribute("products", productRepository.findByOrderByNameAsc());
-        return "index";
-    }
-
-    @GetMapping("/tools/sortbynamedesc")
-    public String sortByNameDesc(Model model) {
-        model.addAttribute("products", productRepository.findByOrderByNameDesc());
-        return "index";
-    }
-
-    @GetMapping("/tools/sortbypriceasc")
-    public String sortByPriceAsc(Model model) {
-        model.addAttribute("products", productRepository.findByOrderByPriceAsc());
-        return "index";
-    }
-
-    @GetMapping("/tools/sortbypricedesc")
-    public String sortByPriceDesc(Model model) {
-        model.addAttribute("products", productRepository.findByOrderByPriceDesc());
-        return "index";
-    }
-
-    @GetMapping("/tools/sortbypublicationdateasc")
-    public String sortByPublicationDateAsc(Model model) {
-        model.addAttribute("products", productRepository.findByOrderByPublicationDateAsc());
-        return "index";
-    }
-
-    @GetMapping("/tools/sortbypublicationdatedesc")
-    public String sortByPublicationDateDesc(Model model) {
-        model.addAttribute("products", productRepository.findByOrderByPublicationDateDesc());
-        return "index";
     }
 }

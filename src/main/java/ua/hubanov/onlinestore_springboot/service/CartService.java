@@ -9,18 +9,12 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 
 public interface CartService {
     void addProductToCart(User user, Long productId) throws Exception;
 
     void removeProductFromCart(User user, Long productId) throws Exception;
-
-    Map<Product, Integer> getProductsInCart();
-
- //   void checkout() throws NotEnoughProductsInStockException;
-
-//    BigDecimal getTotal();
-
 
     Map<Product, Integer> getAllProductsInCart(User user);
 

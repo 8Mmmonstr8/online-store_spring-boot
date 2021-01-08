@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface ProductService {
 
-    Set<Product> findByCategoryId(Long categoryId) throws Exception;
+    List<Product> findAllByCategoryId(Long categoryId);
 
     Optional<Product> findProductById(Long id);
 
@@ -21,4 +21,6 @@ public interface ProductService {
     List<Category> findAllCategory();
 
     void saveCategory(Category category);
+
+    List<Product> sortProductsBy(List<Product> products, String sortBy);
 }

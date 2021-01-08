@@ -84,24 +84,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Set<OrderedProduct> getAllApprovedOrderedProductsOfUser(User user) {
-        Set<OrderedProduct> allApprovedOrderedProducts = new HashSet<>();
+    public List<OrderedProduct> getAllApprovedOrderedProductsOfUser(User user) {
+        List<OrderedProduct> allApprovedOrderedProducts = new ArrayList<>();
         Set<Order> allApprovedOrdersOfUser = orderRepository.findAllByUserAndIsApprovedIsTrue(user);
 
         for (Order x : allApprovedOrdersOfUser) {
             allApprovedOrderedProducts.addAll(x.getOrderedProducts());
         }
+        allApprovedOrderedProducts.sort(Comparator.comparing(o -> o.getOrder().getId()));
         return allApprovedOrderedProducts;
     }
 
     @Override
-    public Set<OrderedProduct> getAllNotApprovedOrderedProductsOfUser(User user) {
-        Set<OrderedProduct> allNotApprovedOrderedProducts = new HashSet<>();
+    public List<OrderedProduct> getAllNotApprovedOrderedProductsOfUser(User user) {
+        List<OrderedProduct> allNotApprovedOrderedProducts = new ArrayList<>();
         Set<Order> allNotApprovedOrdersOfUser = orderRepository.findAllByUserAndIsApprovedIsFalse(user);
 
         for (Order x : allNotApprovedOrdersOfUser) {
             allNotApprovedOrderedProducts.addAll(x.getOrderedProducts());
         }
+        allNotApprovedOrderedProducts.sort(Comparator.comparing(o -> o.getOrder().getId()));
         return allNotApprovedOrderedProducts;
     }
 
