@@ -14,43 +14,43 @@
 <main role="main">
 
     <div class="container">
-        <h2 align="center">Products</h2>
+<!--        <h2 align="center">Products</h2>-->
 <!--        TEST-->
         <form>
-            <p><strong>Category</strong></p>
+            <p th:text="#{homePage.sortByCategory.title}"><strong>Category</strong></p>
             <p><select name="category">
-                <option value="all">All</option>
+                <option value="all" th:text="#{homePage.sortByCategory.option.All}">All</option>
                 <option value="1">Books</option>
                 <option value="3">Gadgets</option>
                 <option value="5">Furniture</option>
                 <option value="4">Toys</option>
                 <option value="2">Groceries</option>
             </select>
-                <input type="submit" value="Отправить"></p>
+                <input type="submit" th:value="#{homePage.button.submit}"></p>
         </form>
 <!--        TEST-->
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>
-                    Name
+                    <a th:text="#{homePage.table.label.name}"></a>
                     <a class="btn btn-dark btn-sm" th:href="@{'/?category={catId}&sortBy=nameAsc'(catId=${category})}" role="button">↓</a>
                     <a class="btn btn-dark btn-sm" th:href="@{'/?category={catId}&sortBy=nameDesc'(catId=${category})}" role="button">↑</a>
                 </th>
-                <th>Quantity</th>
+                <th th:text="#{homePage.table.label.quantity}">Quantity</th>
                 <th>
-                    Price
+                    <a th:text="#{homePage.table.label.price}"></a>
                     <a class="btn btn-dark btn-sm" th:href="@{'/?category={catId}&sortBy=priceAsc'(catId=${category})}" role="button">↓</a>
                     <a class="btn btn-dark btn-sm" th:href="@{'/?category={catId}&sortBy=priceDesc'(catId=${category})}" role="button">↑</a>
                 </th>
-                <th>Category</th>
-                <th>Description</th>
+                <th th:text="#{homePage.table.label.category}">Category</th>
+                <th th:text="#{homePage.table.label.description}">Description</th>
                 <th>
-                    Publication Date
+                    <a th:text="#{homePage.table.label.pubDate}"></a>
                     <a align="right" class="btn btn-dark btn-sm" th:href="@{'/?category={catId}&sortBy=pubDateAsc'(catId=${category})}" role="button">↓</a>
                     <a align="right" class="btn btn-dark btn-sm" th:href="@{'/?category={catId}&sortBy=pubDateDesc'(catId=${category})}" role="button">↑</a>
                 </th>
-                <th>Action</th>
+                <th th:text="#{homePage.table.label.Action}">Action</th>
 
 
             </tr>
@@ -61,16 +61,20 @@
             <tr th:each ="product : ${products}">
                 <td th:utext="${product.name}" />
                 <td th:utext="${product.quantity}" />
-                <td th:utext="${product.price}" />
+<!--                <td th:utext="${product.price}" />-->
+                <td>
+                    <p th:if="${#locale.getISO3Language() == 'eng'}" th:text="${product.price}"></p>
+                    <p th:if="${#locale.getISO3Language() == 'rus'}" th:text="${product.price * 28}"></p>
+                </td>
                 <td th:utext="${product.category.getName()}" />
                 <td th:utext="${product.description}" />
                 <td th:utext="${product.publicationDate}" />
                 <td>
                     <a sec:authorize="!isAuthenticated()">
-                        <a class="btn btn-primary btn-sm" th:href="@{/login}">Add to Cart</a>
+                        <a class="btn btn-primary btn-sm" th:href="@{/login}" th:text="#{homePage.table.button.addToCart}">Add to Cart</a>
                     </a>
                     <a sec:authorize="hasAuthority('ADMIN')">
-                        <a class="btn btn-primary btn-sm" th:href="@{/user/cart}">Add to Cart</a>
+                        <a class="btn btn-primary btn-sm" th:href="@{/user/cart}" th:text="#{homePage.table.button.addToCart}">Add to Cart</a>
                     </a>
 <!--                    <a sec:authorize="hasAuthority('USER')">-->
 <!--                        <a class="btn btn-primary btn-sm" th:href="@{'/user/cart/addproduct/{productId}'(productId=${product.id})}"-->
@@ -80,7 +84,7 @@
 <!--                    </a>-->
                     <a th:href="@{'/user/cart/addproduct/{productId}'(productId=${product.id})}" class="col-md-1"
                        sec:authorize="hasAuthority('USER')" th:if="${product.quantity}>0">
-                        <button type="button" class="btn btn-primary btn-sm" th:text="Buy">Buy</button>
+                        <button type="button" class="btn btn-primary btn-sm" th:text="#{homePage.table.button.addToCart}">Buy</button>
                     </a>
 
 <!--                    <a sec:authorize="hasAuthority('USER')" th:if="${cartProducts.contains(product)}">-->

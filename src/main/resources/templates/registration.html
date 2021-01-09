@@ -23,20 +23,20 @@
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
             <form th:method="POST" th:action="@{/registration}" th:object="${user}">
                 <fieldset class="center">
-                    <h1 align="center">Registration</h1>
+                    <h1 align="center" th:text="#{registrationPage.title}">Registration</h1>
                     <div>
                         <label for="firstName"></label>
-                        <input type="text" class="form-control" th:field="*{firstName}" id="firstName" placeholder="Enter First Name">
+                        <input type="text" class="form-control" th:field="*{firstName}" id="firstName" th:placeholder="#{registrationPage.label.firstName}">
                         <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
                     </div>
                     <div>
                         <label for="lastName"></label>
-                        <input type="text" class="form-control" th:field="*{lastName}" id="lastName" placeholder="Enter Last Name">
+                        <input type="text" class="form-control" th:field="*{lastName}" id="lastName" th:placeholder="#{registrationPage.label.lastName}">
                         <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                     </div>
                     <div>
                         <label for="email"></label>
-                        <input type="text" class="form-control" th:field="*{email}" id="email" placeholder="Enter Email">
+                        <input type="text" class="form-control" th:field="*{email}" id="email" placeholder="Email">
                         <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         <div style="color:red">
                             <td th:text="${userEmailError}"></td>
@@ -44,13 +44,13 @@
                     </div>
                     <div>
                         <label for="password"></label>
-                        <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Enter Password">
+                        <input type="password" class="form-control" th:field="*{password}" id="password" th:placeholder="#{registrationPage.label.password}">
                         <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
 
                     <div style="margin-top: 16px">
                         <div> <!--class="col-xs-6 col-sm-6 col-md-6"-->
-                            <input type="submit" class="btn btn-lg btn-success btn-block" value="Register"/>
+                            <input type="submit" class="btn btn-lg btn-success btn-block" th:value="#{registrationPage.button.submit}"/>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6">
                         </div>

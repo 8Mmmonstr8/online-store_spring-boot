@@ -13,6 +13,5 @@ public interface UserService {
     void delete(User user);
     void blockUser(Long userId);
     void unblockUser(Long userId);
-
     void updateUser(User user, String firstName, String lastName, String password);
 }

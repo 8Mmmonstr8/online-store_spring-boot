@@ -17,13 +17,11 @@ public interface OrderService {
     List<OrderedProduct> getAllApprovedOrderedProductsOfUser(User user);
     List<OrderedProduct> getAllNotApprovedOrderedProductsOfUser(User user);
 
-
     Set<Order> findAll();
     Set<Order> findAllByApprovedFalse();
     Set<Order> findAllByApprovedTrue();
     void approveOrder(Long orderId) throws Exception;
     Order findOrderById(Long orderId) throws Exception;
-
 
     void saveProduct(OrderedProduct orderedProduct);
     Set<OrderedProduct> findAllOrderedProductByOrder(Order order);

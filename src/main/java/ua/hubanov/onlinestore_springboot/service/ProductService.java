@@ -11,16 +11,10 @@ import java.util.Set;
 public interface ProductService {
 
     List<Product> findAllByCategoryId(Long categoryId);
-
     Optional<Product> findProductById(Long id);
-
     List<Product> findAll();
-
     void saveProduct(Product product);
-
     List<Category> findAllCategory();
-
     void saveCategory(Category category);
-
     List<Product> sortProductsBy(List<Product> products, String sortBy);
 }

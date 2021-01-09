@@ -51,11 +51,11 @@
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
             <form th:action="@{/login}" method="post">
                 <fieldset class="center">
-                    <h1 align="center">Please Sign In</h1>
+                    <h1 align="center" th:text="#{loginPage.title}">Please Sign In</h1>
 
                     <div th:if="${param.error}">
                         <div class="alert alert-danger">
-                            Invalid username/password or blocked. Please contact admin@admin.com
+                            <p th:text="#{loginPage.error.massage}"></p>
                         </div>
                     </div>
                     <div th:if="${param.logout}">
@@ -70,19 +70,19 @@
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" id="password" class="form-control input-lg"
-                               placeholder="Password" required="true"/>
+                               th:placeholder="#{loginPage.label.password}" required="true"/>
                     </div>
 
                     <div class="center">
                         <div> <!--class="col-xs-6 col-sm-6 col-md-6"-->
-                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
+                            <input type="submit" class="btn btn-lg btn-primary btn-block" th:value="#{loginPage.button.submit}"/>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6">
                         </div>
                     </div>
 
                     <div style="margin-top: 16px">
-                        <p><a class="btn btn-danger btn-lg btn-block" href="/registration" role="button">Register</a></p>
+                        <p><a class="btn btn-danger btn-lg btn-block" href="/registration" role="button" th:text="#{loginPage.button.register}">Register</a></p>
                     </div>
                 </fieldset>
             </form>
