@@ -21,33 +21,41 @@
 <!--    </div>-->
 
     <div class="container">
-        <h2 align="center">Products in Cart</h2>
+        <h2 align="center" th:text="#{cartPage.tableProductsInCart.tableName}">Products in Cart</h2>
         <p align="center" class="text-danger" th:text="${errorString}"></p>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>
-                    Name
+                    <a th:text="#{cartPage.tableProductsInCart.label.name}"></a>
 <!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbynameasc" role="button">↓</a>-->
 <!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbynamedesc" role="button">↑</a>-->
                 </th>
-                <th>Category</th>
-                <th>Description</th>
                 <th>
-                    Publication Date
+                    <a th:text="#{cartPage.tableProductsInCart.label.category}"></a>
+                </th>
+                <th>
+                    <a th:text="#{cartPage.tableProductsInCart.label.description}"></a>
+                </th>
+                <th>
+                    <a th:text="#{cartPage.tableProductsInCart.label.pubDate}"></a>
 <!--                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdateasc" role="button">↓</a>-->
 <!--                    <a align="right" class="btn btn-dark btn-sm" href="/tools/sortbypublicationdatedesc" role="button">↑</a>-->
                 </th>
-
-                <th>Available Quantity</th>
-
                 <th>
-                    Price
+                    <a th:text="#{cartPage.tableProductsInCart.label.availableQuantity}"></a>
+                </th>
+                <th>
+                    <a th:text="#{cartPage.tableProductsInCart.label.price}"></a>
 <!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbypriceasc" role="button">↓</a>-->
 <!--                    <a class="btn btn-dark btn-sm" href="/tools/sortbypricedesc" role="button">↑</a>-->
                 </th>
-                <th>Needed Quantity</th>
-                <th>Action</th>
+                <th>
+                    <a th:text="#{cartPage.tableProductsInCart.label.neededQuantity}"></a>
+                </th>
+                <th>
+                    <a th:text="#{cartPage.tableProductsInCart.label.Action}"></a>
+                </th>
             </tr>
             </thead>
 
@@ -58,7 +66,11 @@
                 <td th:utext="${product.getKey().getDescription()}" />
                 <td th:utext="${product.getKey().getPublicationDate()}" />
                 <td th:utext="${product.getKey().getQuantity()}" />
-                <td th:utext="${product.getKey().getPrice()}" />
+<!--                <td th:utext="${product.getKey().getPrice()}" />-->
+                <td>
+                    <p th:if="${#locale.getISO3Language() == 'eng'}" th:text="${product.getKey().getPrice()}"></p>
+                    <p th:if="${#locale.getISO3Language() == 'rus'}" th:text="${product.getKey().getPrice() * 28}"></p>
+                </td>
 
 
 
@@ -72,7 +84,7 @@
                                    th:value="${product.getValue()}"
                                    th:size="2">
                             <input type="hidden" id="productId" th:name="productId" th:value="${product.getKey().getId()}"/>
-                            <input type="submit" class="btn btn-sm btn-success" value="Submit">
+                            <input type="submit" class="btn btn-sm btn-success" value="Submit" th:value="#{cartPage.tableProductsInCart.button.submit}">
                         </div>
                     </form>
                 </td>
@@ -85,7 +97,7 @@
                 <td>
                     <a th:href="@{'/user/cart/removeproduct/{productId}'(productId=${product.getKey().getId()})}" class="col-md-1"
                        sec:authorize="hasAuthority('USER')">
-                        <button type="button" class="btn btn-danger btn-sm">Remove</button>
+                        <button type="button" class="btn btn-danger btn-sm" th:text="#{cartPage.tableProductsInCart.button.delete}">Remove</button>
                     </a>
                 </td>
 
@@ -95,11 +107,11 @@
         </table>
 
         <div>
-        <p align="right" th:text="'Total sum: ' + ${totalPrice}"></p>
+        <p align="right" th:text="#{cartPage.tableProductsInCart.totalSum} + ${totalPrice}"></p>
 
         <a th:align="right" th:href="@{'/user/cart/order'}" class="col-md-1"
            sec:authorize="hasAuthority('USER')">
-            <button type="button" class="btn btn-success" value="Order" style="float: right">Checkout</button>
+            <button type="button" class="btn btn-success" value="Order" style="float: right" th:text="#{cartPage.tableProductsInCart.button.checkout}">Checkout</button>
         </a>
         </div>
 
@@ -108,17 +120,17 @@
     <hr>
 
     <div class="container">
-        <h2 align="center">Waiting For Approval</h2>
+        <h2 align="center" th:text="#{cartPage.tableWaitingForApproval.tableName}">Waiting For Approval</h2>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Order Id</th>
-                <th>Order Date</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.name}">Name</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.quantity}">Quantity</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.price}">Price</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.category}">Category</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.description}">Description</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.orderId}">Order Id</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.orderDate}">Order Date</th>
             </tr>
             </thead>
 
@@ -126,7 +138,11 @@
             <tr th:each ="notApprovedOrderedProduct : ${notApprovedOrderedProducts}">
                 <td th:utext="${notApprovedOrderedProduct.getName()}" />
                 <td th:utext="${notApprovedOrderedProduct.getQuantity()}" />
-                <td th:utext="${notApprovedOrderedProduct.getPrice()}" />
+<!--                <td th:utext="${notApprovedOrderedProduct.getPrice()}" />-->
+                <td>
+                    <p th:if="${#locale.getISO3Language() == 'eng'}" th:text="${notApprovedOrderedProduct.getPrice()}"></p>
+                    <p th:if="${#locale.getISO3Language() == 'rus'}" th:text="${notApprovedOrderedProduct.getPrice() * 28}"></p>
+                </td>
                 <td th:utext="${notApprovedOrderedProduct.getCategory().getName()}" />
                 <td th:utext="${notApprovedOrderedProduct.getDescription()}" />
                 <td th:utext="${notApprovedOrderedProduct.getOrder().getId()}" />
@@ -141,17 +157,17 @@
     <hr>
 
     <div class="container">
-        <h2 align="center">Order History</h2>
+        <h2 align="center" th:text="#{cartPage.tableOrderedProducts.tableName}">Order History</h2>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Order Id</th>
-                <th>Order Date</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.name}">Name</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.quantity}">Quantity</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.price}">Price</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.category}">Category</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.description}">Description</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.orderId}">Order Id</th>
+                <th th:text="#{cartPage.tableWaitingForApproval.label.orderDate}">Order Date</th>
             </tr>
             </thead>
 
@@ -159,7 +175,11 @@
             <tr th:each ="approvedOrderedProduct : ${approvedOrderedProducts}">
                 <td th:utext="${approvedOrderedProduct.getName()}" />
                 <td th:utext="${approvedOrderedProduct.getQuantity()}" />
-                <td th:utext="${approvedOrderedProduct.getPrice()}" />
+<!--                <td th:utext="${approvedOrderedProduct.getPrice()}" />-->
+                <td>
+                    <p th:if="${#locale.getISO3Language() == 'eng'}" th:text="${approvedOrderedProduct.getPrice()}"></p>
+                    <p th:if="${#locale.getISO3Language() == 'rus'}" th:text="${approvedOrderedProduct.getPrice() * 28}"></p>
+                </td>
                 <td th:utext="${approvedOrderedProduct.getCategory().getName()}" />
                 <td th:utext="${approvedOrderedProduct.getDescription()}" />
                 <td th:utext="${approvedOrderedProduct.getOrder().getId()}" />
