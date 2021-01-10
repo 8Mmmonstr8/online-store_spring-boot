@@ -34,8 +34,8 @@ Run script from /resources/db/ folder to create database and tables
 and to insert data (sql.sql)
 
 Edit file application.properties from resources. (Replace with your credentials)
-- spring.datasource.username=root
-- spring.datasource.password=r1o2o3t4
+- spring.datasource.username=(your username)
+- spring.datasource.password=(your password)
 
 Run OnlineStoreSpringBootApplication main method.
 
