@@ -1,5 +1,7 @@
 package ua.hubanov.onlinestore_springboot.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.hubanov.onlinestore_springboot.entity.Category;
 import ua.hubanov.onlinestore_springboot.entity.Product;
@@ -17,4 +19,6 @@ public interface ProductService {
     List<Category> findAllCategory();
     void saveCategory(Category category);
     List<Product> sortProductsBy(List<Product> products, String sortBy);
+
+    Page<Product> findAllByCategoryIdAndSorted(Long categoryId, String sortBy, Pageable pageable);
 }

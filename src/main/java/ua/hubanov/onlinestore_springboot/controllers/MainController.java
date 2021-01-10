@@ -1,6 +1,8 @@
 package ua.hubanov.onlinestore_springboot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -10,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ua.hubanov.onlinestore_springboot.controllers.util.PageWrapper;
 import ua.hubanov.onlinestore_springboot.entity.Product;
 import ua.hubanov.onlinestore_springboot.entity.User;
 import ua.hubanov.onlinestore_springboot.service.ProductService;
@@ -30,7 +33,7 @@ public class MainController {
         this.userServiceImpl = userServiceImpl;
         this.productService = productService;
     }
-
+/*
     @GetMapping("/")
     public String home(HttpServletRequest request, Model model) throws Exception {
         String category = request.getParameter("category");
@@ -51,6 +54,39 @@ public class MainController {
         model.addAttribute("products", products);
         model.addAttribute("category", category);
         model.addAttribute("sortBy", sortBy);
+
+        return "index";
+    }
+    */
+
+    @GetMapping("/")
+    public String home(HttpServletRequest request, Model model, Pageable pageable) throws Exception {
+        String category = request.getParameter("category");
+        String sortBy = request.getParameter("sortBy");
+        if (sortBy == null)
+            sortBy = "nameAsc";
+
+        if (category == null || category.equals("all"))
+            category = "0";
+
+
+        Page<Product> productPage = productService.findAllByCategoryIdAndSorted(Long.parseLong(category), sortBy, pageable);
+        PageWrapper<Product> page = new PageWrapper<Product>(productPage, "/");
+
+        model.addAttribute("products", page.getContent());
+        model.addAttribute("category", category);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("page", page);
+
+
+//        Page<Note> notePage = filterAndSort(pageable);
+//        PageWrapper<Note> page = new PageWrapper<Note>(notePage, "/");
+//        model.addAttribute("notes", page.getContent());
+//        model.addAttribute("sort", sortDateMethod);
+//        model.addAttribute("filter", filterMethod);
+//        model.addAttribute("page", page);
+//        return "index";
+
 
         return "index";
     }
